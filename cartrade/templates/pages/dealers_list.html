@@ -1,0 +1,355 @@
+{% extends web_base_template_path %} {% block head %} {% block meta_block %}
+<meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+<meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}" />
+<meta property="og:url" content="{{CurrentUrl}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% if title %}{{title}}{% endif %}">
+<meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" /> {% endblock %} {% endblock %} {% block content %}
+<input type="hidden" id="city_id" value="{{city_doc_name}}">
+<input type="hidden" id="brand_id" value="{{brand_doc_name}}">
+<div class="bg-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="icon fa fa-home"></i></a>
+                    </li>
+                    <li>
+                        <a href="/csd-dealers/{{city_route}}">{{city_name}}</a>
+                    </li>
+                    <li>
+                        <a href="/csd-dealers/{{city_route}}/{{category_route}}">
+                                  {{category_name}}
+                                  </a>
+                    </li>
+                    <li class="active">
+                        <a href="/csd-dealers/{{city_route}}/{{category_route}}/{{brand_route}}"> {{brand_name}} 
+                                  </a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb-->
+<main class="l-main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <section class="b-car-details">
+                    <div class="b-car-details__header">
+                        <h2 class="b-car-details__title">Dealers</h2>
+                        <!--   <div class="b-car-details__subtitle">AWD 430i xSmart Drive Coupe</div> -->
+                    </div>
+                    <div id="dealers-list-row">
+                        {% if dealers %}{% for y in dealers%}
+                        <div class="dealer-list" data-dealername="{{y.name}}" data-dealerroute="{{y.route}}" data-dealer="{{y.dealer_name}}">
+                            <h5>{{y.dealer_name}}</h5>
+                            <ul>
+                                <li><i class="fa fa-map-marker"></i>{{y.dealer_address}}</li>
+                                <li><i class="fa fa-phone"></i>{{y.dealer_phone}}</li>
+                            </ul>
+                            <button href="#" onclick="openPopup('{{y.name}}','{{y.dealer_name}}')" id="contact_button" class="btn btn-primary btn-xs" style="float: right; bottom: 60px;">
+                                Contact Dealer
+                            </button>
+                        </div>
+                        {% endfor %}{% else %}
+                        <p style="margin: 10px;font-size: 16px;margin-top: 15px;">Sorry! No dealers found.</p>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+            <!-- <div class="col-md-3">
+            </div> -->
+        </div>
+    </div>
+    <!-- end .b-car-details-->
+    <div class="container">
+        <!-- Modal -->
+        <div class="modal fade" id="contactdealer" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="dealersName"></h5>
+                        <button type="button" class="close" data-dismiss="modal" style="float: right !important;margin-top: -13px;">&times;</button>
+                        <!-- <h4 class="modal-title"></h4> -->
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6" style="margin-bottom:10px;">
+                                <input class="form-control" type="text" placeholder="Full Name" style="margin-bottom: 2px;" id="cust_name">
+                                <span id="fname_err" class="errMsg">Please fill your name</span>
+                            </div>
+                            <div class="col-md-6" style="margin-bottom: 10px;">
+                                <input class="form-control" required="required" type="email" placeholder="Email-ID" style="margin-bottom: 2px;" id="cust_email">
+                                <span id="email_err" class="errMsg">Please fill your email</span>
+                                <span id="emailValid_err" class="errMsg">Please enter valid email</span>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="form-control" type="text" placeholder="Mobile Number" style="margin-bottom: 2px;" id="cust_mob">
+                                <span id="phone_err" class="errMsg">Please fill your mobile number</span>
+                            </div>
+                            <div class="col-md-6">
+                                <select class="form-control" data-width="100%" id="select_brand">
+                                    <option value="0">Intrested Model</option>
+                                    {% for b in item_list %}
+                                    <option value="{{b.name}}">{{b.item_name}}</option>
+                                    {% endfor %}
+                                    <span id="model_err" class="errMsg">Please select the interested model</span>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" id="submit">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end .section-default_top-->
+</main>
+<script type="text/javascript">
+var dealername;
+var dealerroute;
+var page = 0;
+$("#cust_mob").keydown(function(e) {
+    KeyDown(e);
+});
+$("#contact_button").click(function(){
+    var test=$(this).parent().attr('data-dealername');
+    console.log(test)
+})
+$('#submit').click(function() {
+    var cust_name = $('#cust_name').val();
+    var cust_email = $('#cust_email').val();
+    var cust_mob = $('#cust_mob').val();
+    var item = $("#select_brand option:selected").val();
+    var validEmail = ValidateEmail(cust_email)
+    $("#fname_err").hide();
+    $("#phone_err").hide();
+    $("#email_err").hide();
+    $("#model_err").hide();
+    $("#emailValid_err").hide();
+
+    if (cust_mob != "" && cust_email != "" && cust_name != "" && item != "0" && validEmail == true) {
+
+        frappe.call({
+            method: "cartrade.templates.pages.dealers_list.inset_to_table",
+            args: {
+                cust_name: cust_name,
+                cust_email: cust_email,
+                cust_mob: cust_mob,
+                dealer_int: dealername,
+                item: item
+            },
+            callback: function(r) {
+                $('#contactdealer').modal('hide');
+                alert("The Dealer Will Get Back to You Soon")
+            }
+        });
+    } else {
+        if (cust_name == "")
+            $("#fname_err").show();
+        if (cust_mob == "")
+            $("#phone_err").show();
+        if (item == "0")
+            $("#model_err").show();
+        if (cust_email == "") {
+            $("#email_err").show();
+        } else if (validEmail == false) {
+            $("#emailValid_err").show();
+        }
+    }
+
+});
+
+function ValidateEmail(email) {
+    var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    return expr.test(email);
+};
+
+function openPopup(name, dealer_name) {
+    $('#contactdealer').modal('show');
+    $("#contactdealer").prepend('<div class="modal-backdrop fade in" style="height: 100%;"></div>');
+    dealername = name;
+    $("#contactdealer #dealersName").text('Contact ' + dealer_name)
+    $("#fname_err").hide();
+    $("#phone_err").hide();
+    $("#email_err").hide();
+    $("#model_err").hide();
+    $("#emailValid_err").hide();
+    $('#cust_name').val('');
+    $('#cust_email').val('');
+    $('#cust_mob').val('');
+}
+function openPopupNew(id) {
+    $('#contactdealer').modal('show');
+    $("#contactdealer").prepend('<div class="modal-backdrop fade in" style="height: 100%;"></div>');
+    var dealer_name=$("#contact_button-"+id).parent().attr('data-dealer');
+    var name=$("#contact_button-"+id).parent().attr('data-dealername');
+    dealername = name;
+    $("#contactdealer #dealersName").text('Contact ' + dealer_name)
+    $("#fname_err").hide();
+    $("#phone_err").hide();
+    $("#email_err").hide();
+    $("#model_err").hide();
+    $("#emailValid_err").hide();
+    $('#cust_name').val('');
+    $('#cust_email').val('');
+    $('#cust_mob').val('');
+}
+
+function KeyDown(e) {
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+        (e.keyCode >= 35 && e.keyCode <= 40)) {
+        return;
+    }
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+    }
+}
+$(window).scroll(function() {
+    page = page + 1;
+    frappe.call({
+        method: "cartrade.templates.pages.dealers_list.get_dealers_list",
+        args: {
+            city: $("#city_id").val(),
+            brand: $("#brand_id").val(),
+            page: parseInt(page),
+            size: parseInt(10)
+        },
+        callback: function(r) {
+            var html = '';
+            if (r.message != undefined) {
+                if (r.message.length > 0) {
+                    var divLength=$("#dealers-list-row div").length
+                    for (var i = 0; i < r.message.length; i++) {
+                        divLength=divLength+1;                   
+                        html+='<div class="dealer-list" data-dealername="'+r.message[i].name+'"';
+                        html+='data-dealerroute="'+r.message[i].route+'" data-dealer="'+r.message[i].dealer_name+'">';
+                        html+='<h5>'+r.message[i].dealer_name+'</h5><ul><li><i class="fa fa-map-marker">';
+                        html+='</i>'+r.message[i].dealer_address+'</li><li><i class="fa fa-phone">';
+                        html+='</i>'+r.message[i].dealer_phone+'</li></ul>';
+                        html+='<button href="#" onclick=openPopupNew('+divLength+')';
+                        html+=' id="contact_button-'+divLength+'" class="btn btn-primary btn-xs" style="float:right; bottom: 60px;">Contact Dealer</button></div>';                      
+                    }
+                    $("#dealers-list-row").append(html)
+                }
+            }
+        }
+    });
+});
+</script>
+<style>
+.header-color-black *,
+.header.header-color-black .navbar .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar .container {
+    background-color: rgb(199, 22, 34);
+}
+
+body {
+    margin-top: 60px;
+}
+
+.dealer-list ul {
+    list-style: none;
+}
+
+.dealer-list li i {
+    padding-right: 15px;
+    padding-top: 10px;
+}
+
+.dealer-list {
+    border: 1px solid #eee;
+    padding: 15px 20px;
+    background: #f4f4f4;
+    margin-top: 20px
+}
+
+.mt-20 {
+    margin-top: 20px
+}
+
+#slider-car-details-video .sp-buttons {
+    display: none;
+}
+
+.table>thead>tr>th {
+    border-bottom: 2px solid #999;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.b-car-details__tabs .tab-pane {
+    padding: 0;
+}
+
+.variantTitle {
+    font-size: 15px;
+    color: #0288d1;
+}
+
+.variantPrice {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.DealerItem {
+    /* float: left; */
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #d3d3d3;
+    padding-bottom: 15px;
+}
+
+p.DealerName {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+p.DealerAddress {
+    margin-top: 10px;
+}
+
+p.DealerAddress i {
+    margin-right: 10px;
+}
+
+.DealerItem:last-child {
+    border-bottom: none;
+}
+
+p.shortInfo {
+    padding-top: 10px;
+}
+
+
+.b-car-details__title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: .03em;
+    width: 80%;
+    float: left;
+}
+
+.errMsg {
+    display: none;
+    color: red;
+}
+
+.b-car-details {
+    min-height: 200px;
+}
+</style>
+{% endblock %}

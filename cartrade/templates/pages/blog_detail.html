@@ -1,0 +1,138 @@
+{% extends web_base_template_path %} {% block content %} {% block head %} {% block meta_block %}
+<meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+<meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}" />
+<meta property="og:url" content="{{CurrentUrl}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% if title %}{{title}}{% endif %}">
+<meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" /> {% endblock %} {% endblock %}
+<div class="l-theme animated-css" data-header="sticky" data-header-top="200" data-canvas="container">
+    <div class="main-slider main-slider-2">
+        <div class="slider-pro" id="main-slider" data-slider-width="100%" data-slider-height="7s00px" data-slider-arrows="true" data-slider-buttons="false">
+            <div class="sp-slides">
+                <div class="sp-slide">
+                    <img class="sp-image" src="assets/frappe/assets/media/components/b-main-slider/2.jpg" alt="slider" />
+                    <div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="text-center">
+                                        <h2 class="ui-title-block text-white">Find Your Desired Product </h2>
+                                        <div class="uiv1 ui-decor2" style="background-color: #fff !important;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="b-car-details__tabs tab-content">
+                            <div class="tab-pane active fade in" id="specifications" style="background-color: transparent;">
+                                <form class="b-filter">
+                                    <div class="">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-10">
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-1 col-sm-1">
+                                                </div>
+                                                <div class="col-md-3 col-sm-6">
+                                                </div>
+                                                <div class="col-md-4 col-sm-6">
+                                                    <div class="b-filter-2__group">
+                                                        <input class="form-control" type="text" placeholder="Type to select product name" style="margin-bottom: 2px;" id="search_item">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2 col-sm-6">
+                                                </div>
+                                                <div class="col-md-1 col-sm-1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <main class="l-main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <main class="l-main-content" style="padding-bottom: 0">
+                        <div class="posts-group-2" style="padding-bottom: 0">
+                            <section class="b-post b-post-full clearfix" style="margin-bottom: 50px;">
+                                <div class="entry-media">
+                                    <a class="js-zoom-images" href="{{news.image}}">
+                                            <img class="img-responsive" src="{% if news.image %}{{news.image}}{% else %}/files/no-img.png{% endif %}" alt="Foto" />
+                                        </a>
+                                </div>
+                                <div class="entry-main">
+                                    <div class="entry-meta">
+                                        <div class="entry-meta__group-left">
+                                            <span class="entry-meta__categorie bg-primary">{{news.category}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="entry-header">
+                                        <h2 class="entry-title"><a>{{news.title}}</a></h2>
+                                    </div>
+                                    <div class="entry-content">
+                                        <p>{{news.description}}</p>
+                                    </div>
+                                </div>
+                            </section>
+                        </div>
+                    </main>
+                    <div>
+                <div class="row">                    
+                    {% if RelatedNews %}
+                    <h4 style="padding-left: 15px;margin-bottom: 15px;">Related News</h4>
+                    {% for y in RelatedNews %}
+                        
+                        <div class="col-md-4 col-sm-6">
+                            <section class="b-post b-post-1 clearfix">
+                                <div class="entry-media">
+                                    <a href="/news/{{y.route}}"><img class="img-responsive" src="{% if y.image %}{{y.image}}{% else %}/files/no-img.png{% endif %}" alt="Foto" style="max-height: 145px;width: 100%" /></a>
+                                </div>
+                                <div class="entry-main">
+                                    <div class="entry-header">
+                                        <div class="entry-meta">
+                                            <div class="entry-meta__face">
+                                            </div><a class="entry-meta__categorie" href="news/{{y.route}}"><strong>{{y.category}}</strong></a>
+                                        </div>
+                                        <h2 class="entry-title-1"><a href="/news/{{y.route}}">{{y.title}} </a></h2>
+                                    </div>                                    
+                                </div>
+                            </section>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                </div>
+            </div>
+                </div>
+                <div class="col-md-4">
+                </div>
+            </div>
+            
+        </div>
+    </main>
+</div>
+<style type="text/css">
+.header {
+    background-color: #c91827;
+}
+.entry-title-1 {
+    font-size: 15px;
+    position: relative;
+    line-height: 1.34;
+    letter-spacing: .01em;
+}
+
+.entry-title-1 a {
+    color: #222;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,289 @@
+{% extends web_base_template_path %} {% block content %} {% block head %} {% block meta_block %}
+<meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+<meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}" />
+<meta property="og:url" content="{{CurrentUrl}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% if title %}{{title}}{% endif %}">
+<meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" /> {% endblock %} {% endblock %} {% block script %}
+<script>
+{% include "templates/includes/dcsd/categoryhome.js" %}
+</script>
+{% endblock %}
+<div class="main-slider main-slider-2">
+    <div class="slider-pro" id="main-slider" data-slider-width="100%" data-slider-height="700px" data-slider-arrows="true" data-slider-buttons="false">
+        <div class="sp-slides">
+            <!-- Slide 1-->
+            <div class="sp-slide">
+                <img class="sp-image" src="{{banner_image}}" alt="slider" />
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="text-center">
+                                <h2 class="ui-title-block text-white">Find Your Desired Product </h2>
+                                <div class="ui-decor2" style="background-color: #fff;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <form class="b-filter">
+                    <div class="bg-grey">
+                        <div class="container">
+                            <div class="row">
+                                <!-- <div class="col-md-1 col-sm-1">
+                                </div>
+                                <div class="col-md-3 col-sm-6">
+                                    <select class="form-control" data-width="100%" id="select_brand">
+                                        <option value="0">Select Brand</option>
+                                        {% for b in brand %}
+                                        <option value="{{b.route}}">{{b.brand_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-4 col-sm-6">
+                                    <select class="form-control" data-width="100%" id="select_item">
+                                        <option value="0">Select Product</option>
+                                        {% for i in items%}
+                                        <option value="{{i.route}}" data-brand="{{i.brand}}">{{i.item_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-sm-6">
+                                    <div>
+                                        <button type="button" class="btn btn-lg btn-primary" id="search_item">search product</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 col-sm-1">
+                                </div> -->
+                                <div class="col-md-3 col-sm-6"></div>
+                                <div class="col-md-6 col-sm-6">
+                                    <div class="b-filter-2__group">
+                                        <input class="form-control" type="text" placeholder="Type to select product name" style="margin-bottom: 2px;padding: 14px 15px 11px;" id="search_item">
+                                    </div>
+                                    <input type="hidden" id="category_name" value="{{categoryname}}">
+                                </div>
+                                <div class="col-md-3 col-sm-6"></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="section-default" style="padding-top: 0px">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-center">
+                    <h2 class="ui-title-block">Featured Products</h2>
+                    <div class="ui-decor"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style type="text/css">
+    .imte.b-goods-feat__name:before {
+        display: none
+    }
+    </style>
+    <div class="container">
+        <div class="featured-carousel owl-carousel owl-theme owl-theme_w-btn enable-owl-carousel" data-min768="2" data-min992="3" data-min1200="5" data-margin="30" data-pagination="false" data-navigation="true" data-auto-play="4000" data-stop-on-hover="true">
+            {% for i in featured_products %}
+            <div class="b-goods-feat">
+                <div class="b-goods-feat__img home-image" style="min-height: 164px; position: relative; padding-bottom: 100%;">
+                    <a href="/csd-{{i.CategoryUrl}}/{{i.BrandUrl}}/{{i.route}}">
+                                <img class="img-responsive" src="{% if i.featured_image %}{{i.featured_image}}{% else %}/files/no-img.png{% endif %}" style="width: 100%; width: auto; max-width: 90%; height: auto; max-height: 90%; position: absolute; -webkit-transform: translate(-50%,-50%); transform: translate(-50%,-50%); top: 50%; left: 50%;" alt="foto" />
+                        </a>
+                </div>
+                <h3 class="b-goods-feat__name imte" style="     margin-top: 0px;   margin-bottom: 0px;"><a  href="/csd-{{i.CategoryUrl}}/{{i.BrandUrl}}/{{i.route}}">{{i.brand_name}} {{i.item_name}}</a></h3>
+                <span class="b-goods-1__price_th text-primary visible-th" style="     position: relative;
+                        display: block; padding-right: 70px; font-family: Poppins; font-weight: 600;">
+                            <span style="font-family: 'Hind';">₹ </span> {% if i.base_market_price.market_price |float >0 %} {% if i.base_market_price.market_price |float >= 100000 %} {{i.base_market_price.market_price |float / 100000}} Lakhs {% endif %} {% if i.base_market_price.market_price |float >= 10000 and i.base_market_price.market_price |float
+                < 100000 %} {{i.base_market_price.market_price |float / 10000}} K {% endif %} {% else %} Na {% endif %} </span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<div class="info-group block-table block-table_md">
+    <div class="info-group__section col-md-6">
+        <section class="b-info b-info_mod-a area-bg area-bg_op_80 area-bg_prim parallax" style="background-image: url({{banner_image}})">
+            <div class="area-bg__inner">
+                <h2 class="b-info__title">See All<strong class="b-info__title_lg">{{pathcategory}} Brands</strong></h2>
+                <div class="b-info__desc">Dcsd is nisi aliquip exa con velit esse cillum dolore fugiatal sint occaecat excepteur ipsum dolor sit amet consectetur.</div>
+                <a class="btn btn-white" id="search_Bike">search your brand</a>
+            </div>
+        </section>
+    </div>
+    <div class="info-group__section col-md-6">
+        <section class="b-info b-info_mod-b area-bg area-bg_op_80 area-bg_dark-2 parallax" style="background-image: url({{banner_image}})">
+            <div class="area-bg__inner">
+                <h2 class="b-info__title">Do You Want To Find the<strong class="b-info__title_lg">NEAREST DEALERS?</strong></h2>
+                <div class="b-info__desc">Dcsd is nisi aliquip exa con velit esse cillum dolore fugiatal sint occaecat excepteur ipsum dolor sit amet consectetur.</div>
+                <a class="btn btn-white" id="find_dealers">Find Now</a>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- end .b-info-group-->
+<div class="section-default">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <section class="section-list-brands">
+                    <h2 class="ui-title-block" style="margin-top: 0px;">Brands</h2>
+                    <div class="ui-subtitle-block">We have large number of {{pathcategory}} available, here you can browse by Make!</div>
+                    <div class="ui-decor"></div>
+                    <ul class="b-list-brands list-unstyled">
+                        {% for b in Brands %}
+                        <li class="b-list-brands__item"><a class="b-list-brands__link" href="csd-{{pathcategoryroute}}/{{b.route}}">{{b.brand_name}}<span class="badge">({{b.count}})</span></a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+            <div class="col-md-4 col-md-offset-1">
+                <div class="b-bnr">
+                </div>
+                <div class="b-bnr1">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="section-news section-news_mod-a" style="padding-top:0px;padding-bottom: 110px;    background: #f5f5f5;">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="text-center">
+                    <h2 class="ui-title-block">Latest News</h2>
+                    <!--  <div class="ui-subtitle-block">Tempor incididunt labore dolore magna clium fugiat alique</div> -->
+                    <div class="ui-decor"></div>
+                </div>
+                <div class="carousel-news owl-carousel owl-theme owl-theme_w-btn enable-owl-carousel" data-min768="2" data-min992="3" data-min1200="3" data-margin="30" data-pagination="false" data-navigation="true" data-auto-play="4000" data-stop-on-hover="true">
+                    {% for News in LatestNews%}
+                    <section class="b-post b-post-1 clearfix">
+                            <div class="entry-media">
+                                <a href="news/{{News.route}}"><img class="img-responsive" src="{% if News.image %}{{News.image}}{% else %}/files/no-img.png{% endif %}" alt="Foto" style="max-height: 240px;" /></a>
+                            </div>
+                            <div class="entry-main">
+                                <div class="entry-header">
+                                    <div class="entry-meta">
+                                        <div class="entry-meta__face">
+                                        </div><a class="entry-meta__categorie" href="news/{{News.route}}"><strong>{{News.category}}</strong></a>
+                                    </div>
+                                    <h2 class="entry-title"><a href="news/{{News.route}}">{{News.title}} </a></h2>
+                                </div>
+                               <!--  <div class="entry-content">
+                                    <p>{{News.description}} </p>
+                                </div> -->
+                            </div>
+                        </section>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Modal -->
+<div id="myModal123" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="float: right !important;">&times;</button>
+                <h4 class="modal-title">Brands</h4>
+            </div>
+            <div class="modal-body">
+                <ul class="b-list-brands list-unstyled">
+                    {% for b in Brands%}
+                    <li class="b-list-brands__item"><a class="b-list-brands__link" href="csd-{{pathcategoryroute}}/{{b.route}}">{{b.brand_name}}<span class="badge">({{b.count}})</span></a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="myModal1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" style="float: right !important;">&times;</button>
+                <h4 class="modal-title">Find Dealers</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group bootstrap-select open" style="width: 100%;">
+                            <select class="selectpicker" id="modalbrand" data-width="100%" tabindex="-98">
+                                <option disabled selected value>Select Brand</option>
+                                {% for brand in Brands%}
+                                <option value="{{brand.route}}">{{brand.brand_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="btn-group bootstrap-select open" style="width: 100%;">
+                            <select class="selectpicker" id="modalitem" data-width="100%" tabindex="-98">
+                                <option disabled selected value>Select Model</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="btn-group bootstrap-select open" style="width: 100%;">
+                            <select class="selectpicker" id="modalcity" data-width="100%" tabindex="-98">
+                                <option disabled selected value>Select City</option>
+                                {% for i in city%}
+                                <option value="{{i.route}}">{{i.city_name}}</option>
+                                {% endfor %}
+                            </select>
+                            <span id="errMsg">Please select city</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-lg btn-primary" id="get_dealers">Get Dealers</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style type="text/css">
+.home-image {
+    min-height: 150px;
+    max-height: 150px;
+}
+
+@media (min-width:992px) {
+    .sp-mask {
+
+        height: 400px !important;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container1 {
+        width: 1275px;
+    }
+}
+
+.container1 {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.dropdown-menu.open {
+    max-height: 220px;
+    overflow-y: scroll;
+}
+#errMsg{
+    color: red;
+    display: none;
+}
+</style>
+{% endblock %}

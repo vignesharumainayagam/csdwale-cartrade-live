@@ -1,0 +1,13 @@
+{
+	"js/vicky.min.js": [
+		"public/js/contact_me.js",
+		"public/js/custom.js",
+		"public/js/header.js",
+		"public/js/jqBootstrapValidation.js",
+		"public/js/jquery-migrate-1.2.1.js",
+		"public/js/slidebar.js",
+		"public/js/wNumb.js"
+
+	]
+
+}

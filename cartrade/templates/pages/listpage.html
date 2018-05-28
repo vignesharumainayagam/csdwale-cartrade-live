@@ -1,0 +1,162 @@
+{% extends web_base_template_path %} 
+
+    {% block head %} 
+        {% block meta_block %}
+            <meta itemprop="description" name="description" content="{% if meta_description %}{{meta_description}}{% endif %}" />
+            <meta itemprop="keywords" name="keywords" content="{% if meta_keywords %}{{meta_keywords}}{% endif %}" />
+            <meta property="og:url" content="{{CurrentUrl}}">
+            <meta property="og:type" content="website">
+            <meta property="og:title" content="{% if meta_title %}{{meta_title}}{% endif %}">
+            <meta property="og:description" content="{% if meta_description %}{{meta_description}}{% endif %}" /> 
+        {% endblock %} 
+    {% endblock %} 
+
+{% block content %}
+
+{% block script %}
+
+<script>{% include "templates/includes/dcsd/listpage.js" %}</script>
+
+{% endblock %}  
+
+<div class="bg-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="icon fa fa-home"></i></a>
+                    </li>
+                    <li><a href="/csd-{{Category[0].route}}">{{Category[0].category_name}}</a>
+                    </li>
+                    <li class="active">{{Brand[0].brand_name}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9">
+            <main class="l-main-content">
+               <div class="b-car-details__header" style="padding-bottom: 10px; text-transform: uppercase;">
+                    <h2 class="b-car-details__title">{{Brand[0].brand_name}} {{Category[0].category_name}}</h2>
+                </div>
+                            
+        
+                <!-- end .filter-goods-->
+                <div class="page-title">
+                    
+                </div>
+                <div class="goods-group-2 list-goods" id="item_list">
+                    {% if ItemList|length >= 1 %} {% for item in ItemList %}
+                    <section class="b-goods-1" style="    ">
+                        <div class="row">
+                            <div class="b-goods-1__img" style="    ">
+                                <a href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">
+                                                <img class="img-responsive img-responsive1"  src="{% if item.featured_image%}{{item.featured_image}}{% else %}/files/no-img.png{% endif %}" alt="{{item.featured_image}}"  style="" />
+                                            </a>
+                            </div>
+                            <div class="b-goods-1__inner">
+                                <div class="b-goods-1__header" style="margin-bottom: 5px;"><span class="b-goods-1__price hidden-th"><span style="font-family: 'Hind';">₹ </span> {% if item.base_market_price.market_price |float >0 %} {% if item.base_market_price.market_price |float >= 100000 %} {{item.base_market_price.market_price |float / 100000}} Lakhs {% endif %} {% if item.base_market_price.market_price |float >= 10000 and item.base_market_price.market_price |float
+                                    < 100000 %} {{item.base_market_price.market_price |float / 10000}} K {% endif %} {% else %} Na {% endif %} </span><a class="b-goods-1__choose hidden-th" href="#"></a>
+                                        <h2 class="b-goods-1__name" style="font-weight: 500;     text-transform: capitalize;font-size: 15px;    margin-top: 13px;"><a  href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">{{item.brand}} {{item.item_name}}</a></h2>
+                                </div>
+                                <span class="b-goods-1__price_th text-primary visible-th"><span style="font-family: 'Hind';">₹ </span> {% if item.base_market_price.market_price |float >0 %} {% if item.base_market_price.market_price |float >= 100000 %} {{item.base_market_price.market_price |float / 100000}} Lakhs {% endif %} {% if item.base_market_price.market_price |float >= 10000 and item.base_market_price.market_price |float
+                                < 100000 %} {{item.base_market_price.market_price |float / 10000}} K {% endif %} {% else %} Na {% endif %} <a class="b-goods-1__choose" href="#">
+                                    </a>
+                                    </span>
+                                    <a class="b-goods-1__csdprice hidden-th" href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">CSD Price <i class="fa fa-arrow-right"></i></a>                                    
+                            </div>
+                        </div>
+                    </section>
+                    {% endfor %} {% endif %} {% if ItemList|length == 0 %}
+                    <span class="norecords">No records found</span> {% endif %}
+                </div>
+            </main>
+        </div>
+        <div class="col-md-3">
+            </aside>
+        </div>
+    </div>
+</div>
+
+<style>
+.header-color-black *,
+.header.header-color-black .navbar .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar .container {
+    background-color: rgb(199, 22, 34);
+}
+
+body {
+    margin-top: 60px;
+}
+
+span.norecords {
+    float: left;
+    width: 100%;
+    text-align: center;
+    background: #c71622;
+    color: #fff;
+    font-size: 16px;
+    text-transform: capitalize;
+    padding: 10px 0;
+}
+
+.list-goods_th .b-goods-1__img {
+    text-align: center;
+    min-height: 164px;
+    position: relative;
+    padding-bottom: 100%;
+}
+
+.list-goods_th .b-goods-1 {
+    width: 25%;
+}
+
+.b-goods-1__img {
+    text-align: center;
+    min-height: 164px;
+    position: relative;
+}
+
+.list-goods_th .img-responsive1 {
+    width: auto;
+    max-width: 90%;
+    height: auto;
+    max-height: 90%;
+    position: absolute;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+.img-responsive1 {
+    width: auto;
+    max-width: 90%;
+    height: auto;
+    max-height: 90%;
+    position: absolute;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+.b-goods-1__csdprice{
+    border: 2px solid #d01818;
+    padding: 7px 42.5px;
+    text-align:  center;
+    float:  right;
+    margin-top: 3%;
+    /*margin-right: -32.6%;*/
+    color: #d01818;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+</style>
+{% endblock %}

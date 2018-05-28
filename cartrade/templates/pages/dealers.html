@@ -1,0 +1,218 @@
+{% extends web_base_template_path %}
+{% block head %}
+        {% block meta_block %}
+         <meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+         <meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}"  />
+         <meta property="og:url" content="{{CurrentUrl}}">
+         <meta property="og:type" content="website">
+         <meta property="og:title"  content="{% if title %}{{title}}{% endif %}" >
+         <meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+        {% endblock %}
+ {% endblock %}
+{% block content %}
+      <div class="bg-grey">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ol class="breadcrumb">
+                                <li><a href="/"><i class="icon fa fa-home"></i></a>
+                                </li>
+                                <li><a href="/{{brand_route}}-{{category_route}}">{{brand_name}}</a>
+                                </li>
+                                <li class="active"> <a href="/{{brand_route}}-{{category_route}}/{{item_route}}"> {{item_name}} </a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end breadcrumb-->
+            <main class="l-main-content">
+                <div class="container">
+                    <div class="row">
+                         <div class="col-md-9">
+                            <section class="b-car-details">
+                                <div class="b-car-details__header">
+                         
+                                    <h2 class="b-car-details__title">{{dealer_name}}</h2>
+
+                        
+
+
+                                </div>
+                                <div class="col-md-12" style="border: 1px solid #ccc;
+                                padding: 15px 20px;background: #f5f5f5;">
+                                     <table class="table">
+                                     
+                                          <tbody>
+                                            <tr>
+                                              <th scope="row"><i class="fa fa-map-marker"></i></th>
+                                              <td>{{dealer_address}}</td>
+                                          
+                                             
+                                            </tr>
+                                             <tr>
+                                              <th scope="row"><i class="fa fa-phone"></i></th>
+                                              <td>{{dealer_phone}}</td>
+                                          
+                                             
+                                            </tr>
+
+                                      
+                              
+                                   
+                                          </tbody>
+                                    </table>
+                        
+                                </div>
+                                <div class="col-md-6" style="padding-top: 20px;">
+                                  
+
+
+
+                                </div>
+                                 <div class="col-md-12">
+                                <!-- end .b-thumb-slider-->
+                          
+                                 </div>
+                          
+                            </section>
+                                 <div class="container">
+                <div class="row">
+                    <div class="col-md-9">
+                        <main class="l-main-content">
+                            <div class="filter-goods">
+                                <div class="filter-goods__info" style="font-size: 18px;
+  font-weight: 700;letter-spacing: .02em;text-transform: uppercase;color: #222;">SHOWROOMS {{brandcategory}}
+                                </div>
+                                <div class="filter-goods__select">
+                    
+                                    <div class="btns-switch"><i class="btns-switch__item js-view-th icon fa fa-th-large active"></i><i class="btns-switch__item js-view-list  icon fa fa-th-list"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end .filter-goods-->
+                            <div class="goods-group-2 list-goods">
+
+                                {% for i in items%}
+
+                                <section class="b-goods-1">
+                                    <div class="row">
+                                        <div class="b-goods-1__img">
+                                            <a href="/{{brand_route}}-{{category_route}}/{{i.route}}">
+                                                <img class="img-responsive" src="{% if i.featured_image %}{{i.featured_image}}{% else %}/private/files/no-img.png{% endif %}" alt="foto" />
+                                            </a>
+                                        </div>
+                                        <div class="b-goods-1__inner">
+                                            <div class="b-goods-1__header"><span class="b-goods-1__price hidden-th">{{i.csd_rate}}</span><a class="b-goods-1__choose hidden-th" href="/{{brand_route}}-{{category_route}}/{{i.route}}"></a>
+                                                <h2 class="b-goods-1__name"><a href="/{{brand_route}}-{{category_route}}/{{i.route}}">{{i.item_name}}</a></h2>
+                                            </div>
+                                           <span class="b-goods-1__price_th text-primary visible-th">35 lacks<a class="b-goods-1__choose" 
+                                            href="/{{brand_route}}-{{category_route}}/{{i.route}}"><i class="icon fa fa-heart-o"></i></a>
+                                            </span>
+        
+                                
+                                        </div>
+                                    </div>
+                                </section>
+
+                                {% endfor %}
+
+
+                                <!-- end .b-goods-1-->
+          
+                                <!-- end .b-goods-1-->
+                            </div>
+              
+                        </main>
+                        <!-- end .l-main-content-->
+                    </div>
+                 
+                </div>
+            </div>
+                        </div>
+                        <div class="col-md-3">
+
+                        </div>
+                    </div>
+                </div>
+                <!-- end .b-car-details-->
+               
+
+
+                <!-- end .section-default_top-->
+            </main>
+
+          
+            <style>
+.header-color-black *, .header.header-color-black .navbar .navbar-nav > li > a{
+        color: #fff;
+}
+.navbar .container{
+        background-color: rgb(199, 22, 34);
+}
+body{
+    margin-top: 60px;
+
+}
+#slider-car-details-video .sp-buttons
+{
+    display: none;
+}
+.table > thead > tr > th
+{
+    border-bottom: 2px solid #999;
+        padding-top: 15px;
+    padding-bottom: 15px;
+}
+.b-car-details__tabs .tab-pane
+{
+    padding: 0;
+}
+.variantTitle {
+  font-size: 15px;
+    color: #0288d1;
+}
+.variantPrice {
+    font-size: 15px;
+    font-weight: 500;
+
+}
+.DealerItem {
+    /* float: left; */
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #d3d3d3;
+    padding-bottom: 15px;
+}
+p.DealerName {
+    font-size: 16px;
+    font-weight: 500;
+}
+p.DealerAddress {
+    margin-top: 10px;
+}
+p.DealerAddress i{
+margin-right: 10px;
+}
+.DealerItem:last-child{
+    border-bottom: none;
+    }
+    p.shortInfo {
+    padding-top: 10px;
+}
+
+
+.b-car-details__title { 
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: .03em;
+    width: 80%;
+    float: left; 
+}
+
+</style>
+            {% endblock %}

@@ -1,0 +1,454 @@
+{% extends web_base_template_path %} {% block head %} {% block meta_block %}
+<meta itemprop="description" name="description" content="{% if meta_description %}{{meta_description}}{% endif %}" />
+<meta itemprop="keywords" name="keywords" content="{% if meta_keywords %}{{meta_keywords}}{% endif %}" />
+<meta property="og:url" content="{{CurrentUrl}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% if meta_title %}{{meta_title}}{% endif %}">
+<meta property="og:description" content="{% if meta_description %}{{meta_description}}{% endif %}" /> {% endblock %} {% endblock %} {% block content %} {% block script %}
+<script>
+{ % include "templates/includes/dcsd/details.js" % }
+</script>
+{% endblock %}
+<div class="bg-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="icon fa fa-home"></i></a>
+                    </li>
+                    <li><a href="/csd-{{category_route}}">{{category_name}}</i></a>
+                    </li>
+                    <li><a href="/csd-{{category_route}}/{{brand_route}}">{{item_brand}}</a>
+                    </li>
+                    <li class="active">{{item.item_name}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb-->
+<main class="l-main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <style type="text/css">
+                .csd-goods-1__img {
+                    text-align: center;
+                    min-height: 164px;
+                    position: relative;
+                    padding-bottom: 100%;
+                }
+
+                .img-responsive1 {
+                    width: auto;
+                    max-width: 90%;
+                    height: auto;
+                    max-height: 90%;
+                    position: absolute;
+                    -webkit-transform: translate(-50%, -50%);
+                    transform: translate(-50%, -50%);
+                    top: 50%;
+                    left: 50%;
+                }
+                </style>
+                <section class="b-car-details">
+                    <div class="b-car-details__header" style="    padding-bottom: 10px;">
+                        <h2 class="b-car-details__title">{{item_brand}} {{item.item_name}}</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="entry-media csd-goods-1__img">
+                            <img class="img-responsive img-responsive1 " src="{% if item.featured_image %}{{item.featured_image}}{% else %}/private/files/no-img.png{% endif %}" alt="Foto" />
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 20px;">
+                        <div class="col-md-12" style="padding-bottom: 20px;">
+                            <div class="b-car-info__price" style="font-size: 18px; text-align: left; border: 3px solid #eee;background: transparent;color: #222;">
+                                <span>Market Price    </span>
+                                <span style="font-family: 'Hind'; padding-left: 50px;"> ₹ 
+
+                                        <span id="market_price">
+                                        {% if item_variants | length > 0 %}
+                                            {{ item_variants[0].market_price }}
+                                        {% else %}
+                                            Na
+                                        {% endif %}       
+                                        </span>
+                                </span>
+                            </div>
+                            <div class="b-car-info__price" style="font-size: 18px; text-align: left; border: 3px solid #eee;background: transparent;color: #222;">
+                                <span>CSD Price    </span>
+                                <span style="font-family: 'Hind'; padding-left: 82px;"> ₹ 
+                                        <span id="csd_price">
+                                        {% if item_variants | length > 0 %}
+                                            {{item_variants[0].csd_price}}
+                                        {% else %}
+                                            Na
+                                        {% endif %}           
+                                        </span>
+                                </span>
+                            </div>
+                            <div class="b-car-info__price" style="font-size: 18px; text-align: left; border: 3px solid #eee;background: transparent;color: #222;">
+                                <span>Difference    </span>
+                                <span style="font-family: 'Hind'; padding-left: 71px;"> ₹ 
+                                        <span id="difference">
+
+                                        </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="selectpicker" id="select_variant" data-width="100%" onchange="changeVariant()">
+                                {% if item_variants %}{% for i in item_variants%}
+                                <option {% if loop.index==0 %} selected value {% endif %} data-market-price={{i.market_price}} data-csd-price={{i.csd_price}} id={{i.name}} value="{{i.name}}">
+                                    {{i.variant_name}}</option>
+                                {% endfor %}{% else %}
+                                <option>Select Variant</option>{% endif%}
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="selectpicker" id="select_location" data-width="100%" onchange="changeCity()">
+                                <option>Select Location</option>
+                                {% for i in city%}
+                                <option value="{{i.name}}">{{i.city_name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <a href="{{path}}/images">
+                            <div style="margin-left: 15px;">
+                                <button class="btn btn-lg btn-primary">Open Gallery</button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="b-car-details__section ">
+                            <!-- ui-title-inner -->
+                            <h3 class="b-car-details__section-title details_section">Overview</h3>
+                            <p>{{item.short_description}}</p>
+                        </div>
+                        <div class="b-car-details__section ">
+                            <h3 class="b-car-details__section-title details_section">Variants</h3> {% if item_variants %}
+                            <table class="table table-bordered">
+                                <thead style="background: #f4f4f4">
+                                    <tr>
+                                        <th scope="col">Variant name</th>
+                                        <th scope="col">Price</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in item_variants%}
+                                    <tr>
+                                        <th scope="row" class="variants">
+                                            <a href="{{path}}/{{i.route}}-price">{{i.variant_name}}</a>
+                                        </th>
+                                        <td><span style="font-family: 'Hind';">₹ </span>{{i.csd_price}}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>{% else %} No Variants found.{% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-12" style="margin-top:20px;">
+                        <!-- <ul class="b-car-details__nav nav nav-tabs bg-primary">
+                            <li class="active">
+                                <a href="#dealers" data-toggle="tab">Dealers</a>
+                            </li>
+                        </ul> -->
+                        <h3 class="b-car-details__section-title details_section">Dealers</h3>
+                        <!-- <div class="b-car-details__tabs tab-content">
+                            <div class="tab-pane active fade in" id="dealers" style="    padding: 20px 20px 20px;"> -->
+                        <div class="b-car-details__tabs">
+                            <div id="dealers">
+                                {% if dealers %}{% for y in dealers %}
+                                <div class="DealerItem">
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <p class="DealerName">{{y.dealer_name}}</p>
+                                        <p class="DealerAddress"><i class="fa fa-map-marker"></i>{{y.dealer_address}}</p>
+                                        <p class="DealerAddress">
+                                            <i class="fa fa-phone"></i>{{y.dealer_phone}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        <button class="btn btn-xs" style="background: #c71622;" onclick="openPopup('{{y.name}}','{{y.dealer_name}}')" id="contact-dealer">Contact Dealer</button>
+                                    </div>
+                                </div>
+                                {% endfor %} {% if dealers |length > 9 %}
+                                <a class="btn btn-primary" style="float:right;" href="/csd-dealers/{{city_route}}/{{category_route}}/{{brand_route}}">
+                                    <p>View All</p>
+                                </a>
+                                {% endif %}{% else %}No Dealers found.{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="contactdealer" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="dealersName"></h5>
+                    <button type="button" class="close" data-dismiss="modal" style="float: right !important;margin-top:-13px;">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6" style="margin-bottom: 10px;">
+                            <input class="form-control" type="text" placeholder="Full Name" style="margin-bottom: 2px;" id="cust_name">
+                            <span id="fname_err" class="errMsg">Please fill your name</span>
+                        </div>
+                        <div class="col-md-6" style="margin-bottom: 10px;">
+                            <input class="form-control" type="text" placeholder="Email-ID" style="margin-bottom: 2px;" id="cust_email">
+                            <span id="email_err" class="errMsg">Please fill your email</span>
+                            <span id="emailValid_err" class="errMsg">Please enter valid email</span>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" placeholder="Mobile Number" style="margin-bottom: 2px;" id="cust_mob">
+                            <span id="phone_err" class="errMsg">Please fill your mobile number</span>
+                        </div>
+                        <div class="col-md-6">
+                            <input class="form-control" type="text" style="margin-bottom: 2px;" id="item" readonly="readonly" value="{{item.name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" id="submit">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<style>
+}
+}
+.header-color-black *,
+.header.header-color-black .navbar .navbar-nav>li>a {
+    color: #fff;
+}
+.navbar .container {
+    background-color: rgb(199, 22, 34);
+}
+body {
+    margin-top: 60px;
+}
+#slider-car-details-video .sp-buttons {
+    display: none;
+}
+.table>thead>tr>th {
+    border-bottom: 2px solid #999;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.b-car-details__tabs .tab-pane {
+    padding: 0;
+}
+.variantTitle {
+    font-size: 15px;
+    color: #0288d1;
+}
+.variantPrice {
+    font-size: 15px;
+    font-weight: 500;
+}
+.DealerItem {
+    width: 100%;
+    display: flex;
+    background: #f4f4f4;
+    padding: 10px;
+    margin: 15px 0px;
+}
+p.DealerName {
+    font-size: 16px;
+    font-weight: 500;
+}
+p.DealerAddress {
+    margin-top: 10px;
+}
+p.DealerAddress i {
+    margin-right: 10px;
+}
+.DealerItem:last-child {
+    border-bottom: none;
+}
+p.shortInfo {
+    padding-top: 10px;
+}
+.b-car-details__title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: .03em;
+    width: 80%;
+    float: left;
+}
+.variants a {
+    color: #222 !important;
+}
+.variants a:hover {
+    color: #d01818 !important;
+}
+
+.DealerItem a:hover {
+    color: #d01818 !important;
+}
+.dropdown-menu.open {
+    max-height: 180px;
+    overflow-y: scroll;
+}
+.details_section {
+    margin-bottom: 22px;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: .02em;
+    text-transform: uppercase;
+    color: #222;
+}
+.errMsg {
+    display: none;
+    color: red;
+}
+</style>
+<script type="text/javascript">
+var dealername;
+$(document).ready(function() {
+    var market_price = $('#market_price').html();
+    var csd_price = $('#csd_price').html();    
+    if (market_price.trim() != "Na" && csd_price.trim() != "Na") {
+        market_price = market_price.trim();
+        csd_price = csd_price.trim();
+        market_price = parseFloat(market_price);
+        csd_price = parseFloat(csd_price);
+        var difference = market_price - csd_price;
+        $('#difference').html(parseFloat(difference).toFixed(2));
+        $("#market_price").html(parseFloat(market_price).toFixed(2))
+        $("#csd_price").html(parseFloat(csd_price).toFixed(2))
+    }else{
+        $('#difference').html("Na");
+    }
+    $("#cust_mob").keydown(function(e) {
+        KeyDown(e);
+    });
+    $('#submit').click(function() {
+        var cust_name = $('#cust_name').val();
+        var cust_email = $('#cust_email').val();
+        var cust_mob = $('#cust_mob').val();
+        var item = $("#item").val();
+        var validEmail = ValidateEmail(cust_email)
+        $("#fname_err").hide();
+        $("#phone_err").hide();
+        $("#email_err").hide();
+        $("#model_err").hide();
+        $("#emailValid_err").hide();
+        if (cust_mob != "" && cust_email != "" && cust_name != "" && item != "0" && validEmail == true) {
+            frappe.call({
+                method: "cartrade.templates.pages.dealers_list.inset_to_table",
+                args: {
+                    cust_name: cust_name,
+                    cust_email: cust_email,
+                    cust_mob: cust_mob,
+                    dealer_int: dealername,
+                    item: item
+                },
+                callback: function(r) {
+                    $('#contactdealer').modal('hide');
+                    alert("The Dealer Will Get Back to You Soon")
+                }
+            });
+        } else {
+            if (cust_name == "")
+                $("#fname_err").show();
+            if (cust_mob == "")
+                $("#phone_err").show();
+            if (item == "0")
+                $("#model_err").show();
+            if (cust_email == "") {
+                $("#email_err").show();
+            } else if (validEmail == false) {
+                $("#emailValid_err").show();
+            }
+        }
+    });
+})
+
+function ValidateEmail(email) {
+    var expr = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    return expr.test(email);
+};
+
+function openPopup(name, dealer_name) {
+    $('#contactdealer').modal('show');
+    $("#contactdealer").prepend('<div class="modal-backdrop fade in" style="height: 100%;"></div>');
+    dealername = name;
+    $("#contactdealer #dealersName").text('Contact ' + dealer_name)
+    $("#fname_err").hide();
+    $("#phone_err").hide();
+    $("#email_err").hide();
+    $("#model_err").hide();
+    $("#emailValid_err").hide();
+    $('#cust_name').val('');
+    $('#cust_email').val('');
+    $('#cust_mob').val('');
+}
+
+function KeyDown(e) {
+    if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+        (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+        (e.keyCode >= 35 && e.keyCode <= 40)) {
+        return;
+    }
+    if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+        e.preventDefault();
+    }
+}
+
+function changeVariant() {
+    frappe.call({
+        method: "cartrade.templates.pages.details.getPriceBasedOnCity",
+        args: {
+            city_name: $("#select_location option:selected").val(),
+            variant_name: $("#select_variant option:selected").attr('id'),
+            item: $("#item").val()
+        },
+        callback: function(r) {
+            if (r.message != undefined) {
+                var difference = parseFloat(r.message[0].market_price) - parseFloat(r.message[0].csd_price)
+                $('#difference').html(parseFloat(difference).toFixed(2));
+                $("#market_price").html(parseFloat(r.message[0].market_price).toFixed(2))
+                $("#csd_price").html(parseFloat(r.message[0].csd_price).toFixed(2))
+            } else {
+                $('#difference').html("Na");
+                $("#market_price").html("Na")
+                $("#csd_price").html("Na")
+            }
+        }
+    });
+    
+}
+
+function changeCity() {
+    frappe.call({
+        method: "cartrade.templates.pages.details.getPriceBasedOnCity",
+        args: {
+            city_name: $("#select_location option:selected").val(),
+            variant_name: $("#select_variant option:selected").attr('id'),
+            item: $("#item").val()
+        },
+        callback: function(r) {
+            if (r.message != undefined) {
+                var difference = parseFloat(r.message[0].market_price) - parseFloat(r.message[0].csd_price)
+                $('#difference').html(parseFloat(difference).toFixed(2));
+                $("#market_price").html(parseFloat(r.message[0].market_price).toFixed(2))
+                $("#csd_price").html(parseFloat(r.message[0].csd_price).toFixed(2))
+            } else {
+                $('#difference').html("Na");
+                $("#market_price").html("Na")
+                $("#csd_price").html("Na")
+            }
+        }
+    });
+}
+</script>
+{% endblock %}

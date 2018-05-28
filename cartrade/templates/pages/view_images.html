@@ -1,0 +1,288 @@
+{% extends web_base_template_path %} {% block head %} {% block meta_block %}
+<meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+<meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}" />
+<meta property="og:url" content="{{CurrentUrl}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% if title %}{{title}}{% endif %}">
+<meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" /> {% endblock %} {% endblock %} {% block content %}
+<div class="bg-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="icon fa fa-home"></i></a>
+                    </li>
+                    <li><a href="/csd-{{category_route}}">{{category_name}}</a>
+                    </li>
+                    <li><a href="/csd-{{category_route}}/{{brand_route}}">{{brand_name}}</a>
+                    </li>
+                    <li><a href="/csd-{{category_route}}/{{brand_route}}/{{item_route}}">{{item_name}}</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb-->
+<main class="l-main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <section class="b-car-details">
+                    <div class="b-car-details__header">
+                        <h2 class="b-car-details__title">{{brand_name}} {{item_name}}  </h2>
+                    </div>
+                    <div class="col-md-12">
+                        <img class="img-responsive" src="{% if item_featured_image %}{{item_featured_image}}{% else %}/files/no-img.png{% endif %}" alt="Foto" data-source="{{item_featured_image}}" />
+                    </div>
+                    <div class="col-md-12">
+                    </div>
+                    {% if images | length > 0 %}
+                    <div class="col-md-12">
+                        <div class="b-car-details__nav nav nav-tabs">
+                            <!-- <li> -->
+                            <a href="#specifications" data-toggle="tab" style="color:#222;font-size: 20px;font-weight: 500;">Images </a>
+                            <!-- </li> -->
+                        </div>
+                        <div class="b-car-details__tabs tab-content">
+                            <div class="tab-pane active fade in" id="specifications" style="padding: 20px 20px 20px;">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        {% for i in images %}
+                                        <div class="col-md-4 col-xs-6 gallery">
+                                            <a href="{{i.image}}" data-fancybox="group">
+                                            <img src="{% if i.image %}{{i.image}}{% else %}/private/files/no-img.png{% endif %}" alt="" class="width-100 gallery_img" />
+                                        </a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if videos | length > 0 %}
+                    <div class="col-md-12">
+                        <div class="b-car-details__nav nav nav-tabs">
+                            <!-- <li> -->
+                            <a href="#specifications" data-toggle="tab" style="color:#222;font-size: 20px;font-weight: 500;">Videos </a>
+                            <!-- </li> -->
+                        </div>
+                        <div class="b-car-details__tabs tab-content">
+                            <div class="tab-pane active fade in" id="specifications" style="padding: 20px 20px 20px;">
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        {% for i in videos %}
+                                        <div class="col-md-4 col-xs-6">
+                                            <a style="cursor:pointer" onclick="VideoModel('{{i.youtube_url}}')">
+                                            <!-- <img src="~/images/Web/video.png" class="Villages-play-icon"> -->
+                                            <img src="http://img.youtube.com/vi/{{i.youtube_url}}/0.jpg" style="width:100%;" />                                          
+                                        </a>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </section>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    <!-- end .b-car-details-->
+    <!-- end .section-default_top-->
+    <div id="flyerModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" style="width:75%;text-align:center;">
+        <div class="modal-content">
+            <!-- <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div> -->
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="OnClickCancelVideo()">Close</button>
+            </div>
+        </div>
+    </div>
+</div> 
+</main>
+<style type="text/css">
+.gallery {
+    text-align: center;
+    min-height: 164px;
+    position: relative;
+}
+
+.gallery_img {
+    width: auto;
+    max-width: 90%;
+    height: auto;
+    max-height: 90%;
+    position: absolute;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+.tab-content img{
+    height: 145px;
+}
+</style>
+<style>
+}
+
+
+}
+.header-color-black *,
+.header.header-color-black .navbar .navbar-nav>li>a {
+    color: #fff;
+}
+.navbar .container {
+    background-color: rgb(199, 22, 34);
+}
+body {
+    margin-top: 60px;
+}
+#slider-car-details-video .sp-buttons {
+    display: none;
+}
+.table>thead>tr>th {
+    border-bottom: 2px solid #999;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.b-car-details__tabs .tab-pane {
+    padding: 0;
+}
+.variantTitle {
+    font-size: 15px;
+    color: #0288d1;
+}
+.variantPrice {
+    font-size: 15px;
+    font-weight: 500;
+}
+.DealerItem {
+    /* float: left; */
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #d3d3d3;
+    padding-bottom: 15px;
+}
+p.DealerName {
+    font-size: 16px;
+    font-weight: 500;
+}
+p.DealerAddress {
+    margin-top: 10px;
+}
+p.DealerAddress i {
+    margin-right: 10px;
+}
+.DealerItem:last-child {
+    border-bottom: none;
+}
+p.shortInfo {
+    padding-top: 10px;
+}
+
+
+.b-car-details__title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: .03em;
+    width: 80%;
+    float: left;
+}
+</style>
+<style type="text/css">
+.image-source-link {
+    color: #98C3D1;
+}
+
+.mfp-with-zoom .mfp-container,
+.mfp-with-zoom.mfp-bg {
+    opacity: 0;
+    -webkit-backface-visibility: hidden;
+    /* ideally, transition speed should match zoom duration */
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+
+.mfp-with-zoom.mfp-ready .mfp-container {
+    opacity: 1;
+}
+
+.mfp-with-zoom.mfp-ready.mfp-bg {
+    opacity: 0.8;
+}
+
+.mfp-with-zoom.mfp-removing .mfp-container,
+.mfp-with-zoom.mfp-removing.mfp-bg {
+    opacity: 0;
+}
+
+.width-100 {
+    width: 100% !important;
+}
+</style>
+
+{% block script %}
+<script type="text/javascript">
+  function VideoModel(FlyerPath) {
+    $(".modal-body").html('<iframe src="https://www.youtube.com/embed/' + FlyerPath + '?rel=0" width="100%" height="420px"></iframe>');
+    $('#flyerModal').modal({
+        backdrop: 'static',
+        keyboard: false
+    });
+}
+$(document).ready(function() {
+    $('.zoom-gallery').magnificPopup({
+        delegate: 'a',
+        type: 'image',
+        closeOnContentClick: false,
+        closeBtnInside: false,
+        mainClass: 'mfp-with-zoom mfp-img-mobile',
+        image: {
+            verticalFit: true,
+            titleSrc: function(item) {
+                return item.el.attr('title') + ' &middot; <a class="image-source-link" href="' + item.el.attr('data-source') + '" target="_blank">image source</a>';
+            }
+        },
+        gallery: {
+            enabled: true
+        },
+        zoom: {
+            enabled: true,
+            duration: 300, // don't foget to change the duration also in CSS
+            opener: function(element) {
+                return element.find('img');
+            }
+        }
+
+    });
+});
+function OnClickCancelVideo() {    
+    $('iframe').attr('src', $('iframe').attr('src'));
+}
+
+// function FlyerPathModel(FlyerPath) {
+//     if (FlyerPath != "") {
+//         $(".modal-body").html("<img style='max-width:100%;' src='/Images/Village/" + FlyerPath + "'/>");
+//         $("#flyerModal").modal("show");
+//     }
+// }
+
+</script>
+
+{% endblock %}
+{% endblock %}

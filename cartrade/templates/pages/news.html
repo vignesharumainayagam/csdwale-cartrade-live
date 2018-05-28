@@ -1,0 +1,148 @@
+{% extends web_base_template_path %} {% block head %} {% block meta_block %}
+<meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+<meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}" />
+<meta property="og:url" content="{{CurrentUrl}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% if title %}{{title}}{% endif %}">
+<meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" /> {% endblock %} {% endblock %} {% block content %}
+<input type="hidden" id="city_id" value="{{city_doc_name}}">
+<input type="hidden" id="brand_id" value="{{brand_doc_name}}">
+<div class="bg-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="icon fa fa-home"></i></a>
+                    </li>
+                    <li class="active">
+                        <a href="#">News</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb-->
+<main class="l-main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <section class="b-car-details">
+                    <div id="dealers-list-row">
+                        {% if News %}{% for y in News%}
+                        <div class="col-md-4 col-sm-6">
+                            <section class="b-post b-post-1 clearfix">
+                                <div class="entry-media">
+                                    <a href="/news/{{y.route}}"><img class="img-responsive" src="{% if y.image %}{{y.image}}{% else %}/files/no-img.png{% endif %}" alt="Foto" style="max-height: 145px;width: 100%" /></a>
+                                </div>
+                                <div class="entry-main">
+                                    <div class="entry-header">
+                                        <div class="entry-meta">
+                                            <div class="entry-meta__face">
+                                            </div><a class="entry-meta__categorie" href="/news/{{y.route}}"><strong>{{y.category}}</strong></a>
+                                        </div>
+                                        <h2 class="entry-title-1"><a href="/news/{{y.route}}">{{y.title}} </a></h2>
+                                    </div>
+                                    <!--  <div class="entry-content">
+                                    <p>{{News.description}} </p>
+                                </div> -->
+                                </div>
+                            </section>
+                        </div>
+                        {% endfor %}{% else %}
+                        <p style="margin: 10px;font-size: 16px;margin-top: 15px;">Sorry! No items found.</p>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript">
+var dealername;
+var dealerroute;
+var page = 0;
+
+$(window).scroll(function() {
+    page = page + 1;
+    frappe.call({
+        method: "cartrade.templates.pages.news.get_news_list",
+        args: {
+            page: parseInt(page)
+        },
+        callback: function(r) {
+            var html = '';
+            if (r.message != undefined) {
+                if (r.message.length > 0) {                  
+                    for (var i = 0; i < r.message.length; i++) {
+                        if(r.message[i].image==null)
+                            r.message[i].image='/files/no-img.png'
+                        html+='<div class="col-md-4 col-sm-6"><section class="b-post b-post-1 clearfix"><div class="entry-media"><a href="/news/'+r.message[i].route+'"><img class="img-responsive" src="'+r.message[i].image+'" alt="Foto" style="max-height: 150px;width: 100%" /></a></div><div class="entry-main"><div class="entry-header"><div class="entry-meta"><div class="entry-meta__face"></div><a class="entry-meta__categorie" href="/news/'+r.message[i].route+'"><strong>'+r.message[i].category+'</strong></a></div><h2 class="entry-title-1"><a href="/news/'+r.message[i].route+'">'+r.message[i].title+'</a></h2></div></div></section></div>'
+                    }                    
+                    $("#dealers-list-row").append(html)
+                }
+            }
+        }
+    });
+});
+</script>
+<style>
+.header-color-black *,
+.header.header-color-black .navbar .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar .container {
+    background-color: rgb(199, 22, 34);
+}
+
+body {
+    margin-top: 60px;
+}
+
+.mt-20 {
+    margin-top: 20px
+}
+
+#slider-car-details-video .sp-buttons {
+    display: none;
+}
+
+.table>thead>tr>th {
+    border-bottom: 2px solid #999;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.b-car-details {
+    min-height: 200px;
+}
+
+.b-post-1 .entry-title:before {
+    content: none;
+}
+
+.b-post-1 .entry-main {
+    padding: 0 10px 30px 12px;
+}
+
+.b-post-1 .entry-meta__face {
+    height: 60px;
+}
+
+.b-post-1 .entry-title {
+    font-size: 15px;
+}
+
+.entry-title-1 {
+    font-size: 15px;
+    position: relative;
+    line-height: 1.34;
+    letter-spacing: .01em;
+}
+
+.entry-title-1 a {
+    color: #222;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,224 @@
+{% extends web_base_template_path %}
+{% block content %}
+
+<div class="l-theme animated-css" data-header="sticky" data-header-top="200" data-canvas="container">
+
+    <div class="main-slider main-slider-2">
+        <div class="slider-pro" id="main-slider" data-slider-width="100%" data-slider-height="7s00px" data-slider-arrows="true" data-slider-buttons="false">
+            <div class="sp-slides">
+                <div class="sp-slide">
+                    <img class="sp-image" src="/assets/frappe/assets/media/components/b-main-slider/2.jpg" alt="slider" />
+                    <div>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="text-center">
+                                        <h2 class="ui-title-block text-white">Select Your Brand</h2>
+                                        <div class="uiv1 ui-decor2" style="background-color: #fff !important;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <section class="section-advantages-2 section-dark area-bg area-bg_dark parallax">
+
+        <div class="area-bg__inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="text-center">
+                            <h2 class="ui-title-block" style="margin-top: 0px;color: black">Brands</h2>
+
+                            <div class="ui-decor2" style="color: black"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for i in brands %}
+                    <div class="col-md-3"> 
+                        <a href="/csd-dealers/{{city_route}}/{{category_route}}/{{i.route}}"> 
+                            <section class="cityBox"> 
+                               <h3 class="b-advantages-2__title">
+                               <i class="fa fa-chevron-right text-right" aria-hidden="true" style=" float: right; color: #767474; ">
+                                    
+                                </i>  
+                                <strong>{{i.brand_name}} </strong> 
+                                
+                            </h3>
+                               
+
+                            </section> 
+                        </a> 
+                    </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+
+    <section class="section-default" style="   padding-bottom: 90px;">
+
+
+
+    </section>
+
+
+
+    </div>
+       
+
+{% block style %}
+
+<style type="text/css">
+.home-image{
+    min-height: 150px;
+    max-height: 150px;
+}
+
+section.cityBox { 
+    background: #f5f5f5;  
+    font-size: 18px !important;
+     padding: 10px 15px;
+      margin-top: 35px; 
+      border: 1px solid #ddd; }
+h3.b-advantages-2__title { 
+    padding-bottom: 0; 
+    margin-bottom: 0; 
+}
+.b-advantages-2__title strong {
+ display: block; 
+ margin-top: 0; 
+ font-size: 15px; 
+ font-weight: normal; 
+}
+
+.imte.b-goods-feat__name:before{
+    display: none
+}
+
+.b-filter {
+    margin-top: 0px;
+}
+.b-car-details__nav{
+    margin-top: 120px;
+    padding: 0 200px;
+}
+.b-car-details__nav > li.active{
+    background-color: #f4f4f4;
+    box-shadow: 0 -3px 0 0 rgb(199, 22, 34);
+
+    }
+    .ui-decor2{
+            background: #fff;
+    }
+.pad-20{
+        padding: 20px 0px;
+    }
+
+.sec-1{
+    background-color: rgb(199, 22, 34);
+    color: #fff;
+}
+.sec-1 h3{
+    color: #fff;
+}
+
+@media (max-width:767px) {
+.b-car-details__nav{
+        margin-top: 120px;
+    padding: 0 35px;
+}
+}
+@media (min-width:992px) {
+.sp-mask
+{
+    height:400px !important;
+}
+}
+
+@media (min-width: 1200px){
+.container1 { 
+    width: 1275px;
+}
+}
+.container1 {
+    margin-right: auto;
+    margin-left: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.area-bg_dark:after {
+    background-color: white;
+}
+.ui-decor2:before, .ui-decor2:after {
+    position: absolute;
+    bottom: -5px;
+    width: 30px;
+    height: 1px;
+    content: '';
+    background: #d01818;
+} 
+.uiv1.ui-decor2:before, .uiv1.ui-decor2:after {
+    position: absolute;
+    bottom: -5px;
+    width: 30px;
+    height: 1px;
+    content: '';
+    background: white !important;
+}
+.ui-decor2 {
+background: #d01818 !important;
+}
+.global-search-section {
+   
+   *position: absolute;*/
+    width: 100%;
+    text-align: left;
+    border: 1px solid #ccc;
+    border-top: none;
+    z-index: 1;
+        background: #FFF;
+}
+.search-title {
+        padding: 10px 15px 6px;
+        font-size: 11px;
+        color: #babfc3;
+    }
+    .search-list-section li {
+        padding: 5px 15px;
+    }
+    .search-list-section li, .text-capitalize {
+        text-transform: capitalize;
+    }
+    .trending-icon {
+        background-position: -211px -22px;
+        width: 27px;
+        height: 12px;
+    }
+    .padding-right10 {
+        padding-right: 10px;
+    }
+
+    .search-list-section li a {
+        width: calc(100% - 35px);
+        display: inline-block;
+        color: #565a5c;
+    }
+</style>
+
+{% endblock %}
+
+{% endblock %}
+

@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include cartrade *.css
+recursive-include cartrade *.csv
+recursive-include cartrade *.html
+recursive-include cartrade *.ico
+recursive-include cartrade *.js
+recursive-include cartrade *.json
+recursive-include cartrade *.md
+recursive-include cartrade *.png
+recursive-include cartrade *.py
+recursive-include cartrade *.svg
+recursive-include cartrade *.txt
+recursive-exclude cartrade *.pyc

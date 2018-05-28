@@ -1,0 +1,201 @@
+{% extends web_base_template_path %} {% block head %} {% block meta_block %}
+<meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
+<meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}" />
+<meta property="og:url" content="{{CurrentUrl}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{% if title %}{{title}}{% endif %}">
+<meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" /> {% endblock %} {% endblock %} {% block content %}
+<div class="bg-grey">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ol class="breadcrumb">
+                    <li><a href="/"><i class="icon fa fa-home"></i></a>
+                    </li>
+                    <li><a href="/csd-{{item_category_route}}">{{category_title}}</a>
+                    </li>
+                    <li><a href="/csd-{{item_category_route}}/{{item_brand_route}}">{{item_brand}}</a>
+                    </li>
+                    <li><a href="/csd-{{item_category_route}}/{{item_brand_route}}/{{item_route}}">{{item_title}}</a></li>
+                    </li>
+                    <li class="active">{{variant_title}} </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- end breadcrumb-->
+<main class="l-main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <section class="b-car-details">
+                    <div class="b-car-details__header">
+                        <h2 class="b-car-details__title">{{item_brand}} {{item_title}} {{variant_title}}</h2>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="entry-media">
+                            <img class="img-responsive" src="{% if item_featured_image %}{{item_featured_image}}{% else %}/files/no-img.png{% endif %}" alt="Foto" />
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding-top: 20px;">
+                        <div class="col-md-12" style="padding-bottom: 20px;">
+                            <div class="b-car-info__price" style="font-size: 18px; text-align: left; border: 3px solid #eee;background: transparent;color: #222;">
+                                <span>Market Price    </span>
+                                <span style="font-family: 'Hind'; padding-left: 50px;"> ₹ 
+                                                    <span id="market_price">
+                                                    {{market_price}}   
+                                                    </span>
+                                </span>
+                            </div>
+                            <div class="b-car-info__price" style="font-size: 18px; text-align: left; border: 3px solid #eee;background: transparent;color: #222;">
+                                <span>CSD Price    </span>
+                                <span style="font-family: 'Hind'; padding-left: 82px;"> ₹ 
+                                                    <span id="csd_price">
+                                                    {{csd_price}}         
+                                                    </span>
+                                </span>
+                            </div>
+                            <div class="b-car-info__price" style="font-size: 18px; text-align: left; border: 3px solid #eee;background: transparent;color: #222;">
+                                <span>Difference    </span>
+                                <span style="font-family: 'Hind'; padding-left: 71px;"> ₹ 
+                                                    <span id="difference">
+                                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <a href="/csd-{{item_category_route}}/{{item_brand_route}}/{{item_route}}/images">
+                            <div style="margin-left: 15px;">
+                                <button class="btn btn-lg btn-primary">Open Gallery</button>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-12">
+                        <ul class="b-car-details__nav nav nav-tabs bg-primary">
+                            <li class="active"><a href="#specifications" data-toggle="tab">Specifications</a>
+                            </li>
+                        </ul>
+                        <div class="b-car-details__tabs tab-content">
+                            <div class="tab-pane active fade in" id="specifications" style="    padding: 20px 20px 20px;">
+                                <table class="table">
+                                    <tbody>
+                                        {% for i in variant_specifications %}
+                                        <tr>
+                                            <th scope="row">{{i.specification}}</th>
+                                            <td>{{i.value}}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-md-3">
+            </div>
+        </div>
+    </div>
+    <!-- end .b-car-details-->
+    <!-- end .section-default_top-->
+</main>
+<script type="text/javascript">
+$(document).ready(function() {
+
+
+    var market_price = $('#market_price').html();
+    var csd_price = $('#csd_price').html();
+    market_price = market_price.trim();
+    csd_price = csd_price.trim();
+    if (market_price != "Na" && csd_price != "Na") {
+        market_price = parseFloat(market_price);
+        csd_price = parseFloat(csd_price);
+        var difference = market_price - csd_price;
+        $('#difference').html(parseFloat(difference));
+    } else {
+        $('#difference').html(market_price);
+    }
+
+});
+</script>
+<style>
+.header-color-black *,
+.header.header-color-black .navbar .navbar-nav>li>a {
+    color: #fff;
+}
+
+.navbar .container {
+    background-color: rgb(199, 22, 34);
+}
+
+body {
+    margin-top: 60px;
+}
+
+#slider-car-details-video .sp-buttons {
+    display: none;
+}
+
+.table>thead>tr>th {
+    border-bottom: 2px solid #999;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.b-car-details__tabs .tab-pane {
+    padding: 0;
+}
+
+.variantTitle {
+    font-size: 15px;
+    color: #0288d1;
+}
+
+.variantPrice {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.DealerItem {
+    /* float: left; */
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    border-bottom: 1px solid #d3d3d3;
+    padding-bottom: 15px;
+}
+
+p.DealerName {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+p.DealerAddress {
+    margin-top: 10px;
+}
+
+p.DealerAddress i {
+    margin-right: 10px;
+}
+
+.DealerItem:last-child {
+    border-bottom: none;
+}
+
+p.shortInfo {
+    padding-top: 10px;
+}
+
+
+.b-car-details__title {
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 28px;
+    line-height: 1;
+    letter-spacing: .03em;
+    width: 80%;
+    float: left;
+}
+</style>
+{% endblock %}
