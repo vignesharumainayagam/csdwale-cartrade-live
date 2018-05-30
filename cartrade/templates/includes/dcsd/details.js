@@ -7,7 +7,7 @@ return (value != null) ? unescape(value[1]) : null;
 }
  
  $( document ).ready(function() {
-
+    
 
     $("#select_variant").change(function(){
     var market_price = $('#select_variant option:selected').attr('data-market-price');

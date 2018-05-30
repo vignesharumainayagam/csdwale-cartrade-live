@@ -28,6 +28,6 @@ def get_context(context):
 	category_name = frappe.db.get_value("Category", 
 				 filters={'route': category_route}, fieldname=['name'])
 
-	context.brands = frappe.db.get_list('ItemBrand', 
+	context.brands1 = frappe.db.get_list('ItemBrand', 
 					 filters={'category': category_name,'published':1},
 					 fields=['brand_name', 'route', 'name'],order_by='brand_name')

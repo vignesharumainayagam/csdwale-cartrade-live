@@ -53,7 +53,7 @@ def get_context(context):
 	for x in Brands:
 		x.route = frappe.db.get_value('ItemBrand',fieldname=['route'], filters={'name':x.parent})
 		x.brand_name = frappe.db.get_value('ItemBrand',fieldname=['brand_name'], filters={'name':x.parent})
-		item_count = frappe.db.get_all("Item", fields=['name'], filters={'brand': x.parent})
+		item_count = frappe.db.get_all("Item", fields=['name'], filters={'brand': x.parent, 'category': pathcategory[0].name})
 		x.count = len(item_count)	
 	featured_products=frappe.db.get_all('Item', 
 						fields=['item_name','brand','csd_rate','short_description', 'featured_image','route', 'category', 'name'], 

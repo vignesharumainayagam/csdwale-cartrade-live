@@ -47,7 +47,7 @@ def get_context(context):
 	ItemList=frappe.db.get_all('Item', 
 								fields=['item_name','category','csd_rate','market_rate','route',
 										'featured_image','short_description','brand', 'name'],
-								filters={'brand':Brand[0].name,'category':Category[0].name},
+								filters={'brand':Brand[0].name,'category':Category[0].name, 'is_published':1},
 								limit_start=0, limit_page_length=20)
 
 	
@@ -99,7 +99,7 @@ def get_context(context):
 
 
 @frappe.whitelist(allow_guest=True)
-def get_more_items(category_route, brand_route):
+def get_more_items(category_route, brand_route,num):
 	Category=frappe.db.get_all('Category', 
 							  fields=['category_name','route','name'],
 							  filters={'route': category_route})
@@ -112,7 +112,7 @@ def get_more_items(category_route, brand_route):
 								fields=['item_name','category','csd_rate','market_rate','route',
 										'featured_image','short_description','brand', 'name'],
 								filters={'brand':Brand[0].name,'category':Category[0].name},
-								limit_start = 21)
+								limit_start = num,limit_page_length=20)
 
 	for x in data:
 		x.current_location = frappe.request.cookies.get('city_location')

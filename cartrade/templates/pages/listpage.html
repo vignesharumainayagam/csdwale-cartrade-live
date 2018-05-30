@@ -54,20 +54,23 @@
                         <div class="row">
                             <div class="b-goods-1__img" style="    ">
                                 <a href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">
-                                                <img class="img-responsive img-responsive1"  src="{% if item.featured_image%}{{item.featured_image}}{% else %}/files/no-img.png{% endif %}" alt="{{item.featured_image}}"  style="" />
-                                            </a>
+                                    <img 
+                                    class="img-responsive img-responsive1"  
+                                    src="{% if item.featured_image%}{{item.featured_image}}{% else %}/files/no-img.png{% endif %}" 
+                                    alt="{% if item.featured_image%}{{item.featured_image}}{% else %}/files/no-img.png{% endif %}"/>
+                                </a>
                             </div>
-                            <div class="b-goods-1__inner">
-                                <div class="b-goods-1__header" style="margin-bottom: 5px;"><span class="b-goods-1__price hidden-th"><span style="font-family: 'Hind';">₹ </span> {% if item.base_market_price.market_price |float >0 %} {% if item.base_market_price.market_price |float >= 100000 %} {{item.base_market_price.market_price |float / 100000}} Lakhs {% endif %} {% if item.base_market_price.market_price |float >= 10000 and item.base_market_price.market_price |float
-                                    < 100000 %} {{item.base_market_price.market_price |float / 10000}} K {% endif %} {% else %} Na {% endif %} </span><a class="b-goods-1__choose hidden-th" href="#"></a>
-                                        <h2 class="b-goods-1__name" style="font-weight: 500;     text-transform: capitalize;font-size: 15px;    margin-top: 13px;"><a  href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">{{item.brand}} {{item.item_name}}</a></h2>
+                            <div class="b-goods-1__inner row">
+                                <div class="col-md-7 col-xs-12">
+                                <h2 class="b-goods-1__name" style="font-weight: 500;     text-transform: capitalize;font-size: 15px; margin-top: 13px;"><a  href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">{{item.brand}} {{item.item_name}}</a></h2>
+                                </div>                                         
+                                <div class="col-md-5 col-xs-12">
+                                <span class="b-goods-1__price hidden-th"><span style="font-family: 'Hind';">₹ </span> {% if item.base_market_price.market_price |float >0 %} {% if item.base_market_price.market_price |float >= 100000 %} {{item.base_market_price.market_price |float / 100000}} Lakhs {% endif %} {% if item.base_market_price.market_price |float >= 10000 and item.base_market_price.market_price |float
+                                    < 100000 %} {{item.base_market_price.market_price |float / 10000}} K {% endif %} {% else %} Na {% endif %} </span>
+                                <a class="b-goods-1__csdprice hidden-th" href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">CSD Price <i class="fa fa-arrow-right"></i></a>                            
                                 </div>
-                                <span class="b-goods-1__price_th text-primary visible-th"><span style="font-family: 'Hind';">₹ </span> {% if item.base_market_price.market_price |float >0 %} {% if item.base_market_price.market_price |float >= 100000 %} {{item.base_market_price.market_price |float / 100000}} Lakhs {% endif %} {% if item.base_market_price.market_price |float >= 10000 and item.base_market_price.market_price |float
-                                < 100000 %} {{item.base_market_price.market_price |float / 10000}} K {% endif %} {% else %} Na {% endif %} <a class="b-goods-1__choose" href="#">
-                                    </a>
-                                    </span>
-                                    <a class="b-goods-1__csdprice hidden-th" href="/csd-{{item.CategoryUrl}}/{{item.BrandUrl}}/{{item.route}}">CSD Price <i class="fa fa-arrow-right"></i></a>                                    
                             </div>
+                            
                         </div>
                     </section>
                     {% endfor %} {% endif %} {% if ItemList|length == 0 %}
@@ -82,6 +85,41 @@
 </div>
 
 <style>
+    .b-goods-1__csdprice{
+        margin-top: 22% !important;
+    }
+@media screen and (max-width: 767px) /* Mobile */ {
+.b-goods-1__inner {
+    float: none;
+    width: 100%;
+    margin-top: 20px;
+    padding-right: 0px;
+    padding-left: 34px;
+    margin-right: 0;
+}
+.b-goods-1__csdprice{
+    margin-top:0 !important;
+    padding: 5px 39.5px !important;
+    font-size: 12px !important;
+}
+.b-goods-1__price {
+    float: left;
+    width: 48%;
+}
+.l-main-content {
+    padding-top: 40px;
+}
+.b-goods-1__csdprice
+{
+
+float: right;
+    width: 48%;
+    padding: 4px;
+    margin-top: 0;
+    margin-left: 2%;
+
+}
+}
 .header-color-black *,
 .header.header-color-black .navbar .navbar-nav>li>a {
     color: #fff;

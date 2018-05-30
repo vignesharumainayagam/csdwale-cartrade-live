@@ -70,50 +70,33 @@ $(document).ready(function() {
         delay: 150,
         autoFocus: true,
         source: function(request, response) {
-            // var user = getCookie("user_id");
-            var selected_category = $('#category_name').val()
-            $.ajax({
-                method: "POST",
-                url: '/',
-                headers: {
-                    Accept: "application/json, text/javascript, */*; q=0.01",
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-                },
-                data: {
-                    cmd: "frappe.utils.global_search.web_search",
-                    start: 0,
-                    text: request.term,
-                    limit: 8,
-                    doctype: 'Item'
-                },
-                success: function(data) {
-                    var bty = []
-                    $.each(data.message, function(index, item) {
-                        var parts = item.content;
-                        var part = parts.split('|||')
-                        if (part.length > 3) {
-                            var category = part[2].split(':')[1];
-                            console.log(category)
-                            console.log(selected_category)
-                            if (selected_category == category.trim()) {
-                                var brand = part[1].split(':')[1].replace('-', '')
-                                var url = 'csd-' + category + '/' + brand + '/';
-                                var rr = brand.replace(/-/g, '') + '-' + category + '/';
-                                var route = url.replace(/ /g, '');
-                                bty.push({
-                                    label: part[1].split(':')[1] + item.title,
-                                    value: item.title,
-                                    content: item.content,
-                                    route: route + item.route || ''
-                                })
-                            }
+
+            frappe.call({
+                        method: "frappe.utils.global_search.csd_search",
+                        args: {
+                            start: 0,
+                            limit: 10,
+                            text: request.term
+                        },
+                        callback: function(r) {
+                            console.log(r)
+                            var bty = []
+                            $.each(r.message, function(index, item) {
+     
+                
+                                    bty.push({
+                                        label: item[2],
+                                        value: item[2],
+                                        content: item[2],
+                                        route: item[1]
+                                    })
+
+
+                            })
+                            response(bty)
                         }
+                    }); 
 
-                    })
-                    response(bty)
-
-                }
-            })
 
         },
         minLength: 2,
@@ -155,7 +138,7 @@ $(document).ready(function() {
     })
 
     $('#get_dealers').click(function() {
-        var category_route = window.location.pathname.replace('/', '').split('-')[1]
+        var category_route = window.location.pathname.replace('/', '').replace('csd-','').split('/')[0]
         var brand_route = $('#modalbrand option:selected').val();
         var city_route = $('#modalcity option:selected').val();
         $("#errMsg").hide();

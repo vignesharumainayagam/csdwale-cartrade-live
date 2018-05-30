@@ -19,52 +19,34 @@ frappe.ui.form.on('Update Item Price', {
                             brand: frm.doc.brand
                         },
                         callback: function(r) {
-                            frm.doc.table_7=[]
-                            for (var e = frm.doc.table_7.length; e < r.message.length; e++) {
-                                frappe.model.add_child(cur_frm.doc, "Update Item Price Child", "table_7");
-                                $.each(frm.doc.table_7 || [], function(e, v) {
-                                    frappe.model.set_value(v.doctype, v.name, "item", r.message[e].item)
-                                    frappe.model.set_value(v.doctype, v.name, "variants", r.message[e].variant_name)
-                                    frappe.model.set_value(v.doctype, v.name, "price", r.message[e].variant_price)
-                                    frappe.model.set_value(v.doctype, v.name, "variant_name", r.message[e].name)
-                                    frappe.model.set_value(v.doctype, v.name, "city", frm.doc.location)
-                                    frappe.model.set_value(v.doctype, v.name, "changed", 0)
-                                    frappe.model.set_value(v.doctype, v.name, "price_name", r.message[e].price_name)
-                                    frappe.model.set_value(v.doctype, v.name, "market_price", r.message[e].variant_market_price)
-
-
-
-                                })
-                                frm.refresh_field("table_7");
+                            if (r.message){
+                                console.log(r.message)
+                                frm.doc.table_7=[]
+                                for (var e = frm.doc.table_7.length; e < r.message.length; e++) {
+                                    frappe.model.add_child(cur_frm.doc, "Update Item Price Child", "table_7");
+                                    $.each(frm.doc.table_7 || [], function(e, v) {
+                                        frappe.model.set_value(v.doctype, v.name, "item", r.message[e].item)
+                                        frappe.model.set_value(v.doctype, v.name, "variants", r.message[e].variant_name)
+                                        frappe.model.set_value(v.doctype, v.name, "price", r.message[e].variant_price)
+                                        frappe.model.set_value(v.doctype, v.name, "variant_name", r.message[e].name)
+                                        frappe.model.set_value(v.doctype, v.name, "city", frm.doc.location)
+                                        frappe.model.set_value(v.doctype, v.name, "changed", 0)
+                                        frappe.model.set_value(v.doctype, v.name, "price_name", r.message[e].price_name)
+                                        frappe.model.set_value(v.doctype, v.name, "market_price", r.message[e].variant_market_price)
+    
+    
+    
+                                    })
+                                    frm.refresh_field("table_7");
+                                }
+                            }
+                            else{
+                                frappe.msgprint(__("There are no variants in the givin category and brand"))
                             }
                         }
                     });
                 } else {
-                    frappe.call({
-                        method: "cartrade.cartrade.doctype.update_item_price.update_item_price.get_all_data_by_category",
-                        args: {
-                            category: frm.doc.category,
-                            city: frm.doc.location,
-                        },
-                        callback: function(r) {
-                            frm.doc.table_7=[]
-                            for (var e = frm.doc.table_7.length; e < r.message.length; e++) {
-                                frappe.model.add_child(cur_frm.doc, "Update Item Price Child", "table_7");
-                                $.each(frm.doc.table_7 || [], function(e, v) {
-                                    frappe.model.set_value(v.doctype, v.name, "item", r.message[e].item)
-                                    frappe.model.set_value(v.doctype, v.name, "variants", r.message[e].variant_name)
-                                    frappe.model.set_value(v.doctype, v.name, "price", r.message[e].variant_price)
-                                    frappe.model.set_value(v.doctype, v.name, "variant_name", r.message[e].name)
-                                    frappe.model.set_value(v.doctype, v.name, "city", frm.doc.location)
-                                    frappe.model.set_value(v.doctype, v.name, "changed", 0)
-                                    frappe.model.set_value(v.doctype, v.name, "price_name", r.message[e].price_name)
-                                    frappe.model.set_value(v.doctype, v.name, "market_price", r.message[e].variant_market_price)
-
-                                })
-                                frm.refresh_field("table_7");
-                            }
-                        }
-                    });
+                    frappe.msgprint(__("No brand has been selected"))    
                 }
             } else {
                 frappe.msgprint(__("No category has been selected"))

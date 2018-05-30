@@ -4,9 +4,11 @@
 <meta property="og:url" content="{{CurrentUrl}}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% if meta_title %}{{meta_title}}{% endif %}">
-<meta property="og:description" content="{% if meta_description %}{{meta_description}}{% endif %}" /> {% endblock %} {% endblock %} {% block content %} {% block script %}
+<meta property="og:description" content="{% if meta_description %}{{meta_description}}{% endif %}" /> {% endblock %} {% endblock %} 
+{% block content %} 
+{% block script %}
 <script>
-{ % include "templates/includes/dcsd/details.js" % }
+{% include "templates/includes/dcsd/details.js" %}
 </script>
 {% endblock %}
 <div class="bg-grey">
@@ -97,7 +99,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <select class="selectpicker" id="select_variant" data-width="100%" onchange="changeVariant()">
+                            <select class="selectpicker" id="select_variant" data-width="100%">
                                 {% if item_variants %}{% for i in item_variants%}
                                 <option {% if loop.index==0 %} selected value {% endif %} data-market-price={{i.market_price}} data-csd-price={{i.csd_price}} id={{i.name}} value="{{i.name}}">
                                     {{i.variant_name}}</option>
@@ -160,6 +162,7 @@
                             <div id="dealers">
                                 {% if dealers %}{% for y in dealers %}
                                 <div class="DealerItem">
+                                    <div class="row">
                                     <div class="col-md-9 col-sm-9 col-xs-12">
                                         <p class="DealerName">{{y.dealer_name}}</p>
                                         <p class="DealerAddress"><i class="fa fa-map-marker"></i>{{y.dealer_address}}</p>
@@ -168,14 +171,14 @@
                                         </p>
                                     </div>
                                     <div class="col-md-3 col-sm-3 col-xs-12">
-                                        <button class="btn btn-xs" style="background: #c71622;" onclick="openPopup('{{y.name}}','{{y.dealer_name}}')" id="contact-dealer">Contact Dealer</button>
+                                        <button class="btn btn-xs contact_d" style="background: #c71622;" onclick="openPopup('{{y.name}}','{{y.dealer_name}}')" id="contact-dealer">Contact Dealer</button>
+                                    </div>
                                     </div>
                                 </div>
-                                {% endfor %} {% if dealers |length > 9 %}
-                                <a class="btn btn-primary" style="float:right;" href="/csd-dealers/{{city_route}}/{{category_route}}/{{brand_route}}">
-                                    <p>View All</p>
-                                </a>
-                                {% endif %}{% else %}No Dealers found.{% endif %}
+                                {% endfor %} 
+                                {% else %}
+                                No Dealers found.
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -254,7 +257,7 @@ body {
 }
 .DealerItem {
     width: 100%;
-    display: flex;
+    /*display: flex;*/
     background: #f4f4f4;
     padding: 10px;
     margin: 15px 0px;
@@ -309,6 +312,15 @@ p.shortInfo {
 .errMsg {
     display: none;
     color: red;
+}
+.contact_d{
+    top: 15px;
+}
+@media screen and (max-width: 500px) /* Mobile */ {
+.contact_d{
+    top: 7px;
+}
+   .DealerItem{ padding-bottom: 20px;}
 }
 </style>
 <script type="text/javascript">
@@ -404,29 +416,29 @@ function KeyDown(e) {
     }
 }
 
-function changeVariant() {
-    frappe.call({
-        method: "cartrade.templates.pages.details.getPriceBasedOnCity",
-        args: {
-            city_name: $("#select_location option:selected").val(),
-            variant_name: $("#select_variant option:selected").attr('id'),
-            item: $("#item").val()
-        },
-        callback: function(r) {
-            if (r.message != undefined) {
-                var difference = parseFloat(r.message[0].market_price) - parseFloat(r.message[0].csd_price)
-                $('#difference').html(parseFloat(difference).toFixed(2));
-                $("#market_price").html(parseFloat(r.message[0].market_price).toFixed(2))
-                $("#csd_price").html(parseFloat(r.message[0].csd_price).toFixed(2))
-            } else {
-                $('#difference').html("Na");
-                $("#market_price").html("Na")
-                $("#csd_price").html("Na")
-            }
-        }
-    });
+/{
+//     frappe.call({
+//         method: "cartrade.templates.pages.details.getPriceBasedOnCity",
+//         args: {
+//             city_name: $("#select_location option:selected").val(),
+//             variant_name: $("#select_variant option:selected").attr('id'),
+//             item: $("#item").val()
+//         },
+//         callback: function(r) {
+//             if (r.message != undefined) {
+//                 var difference = parseFloat(r.message[0].market_price) - parseFloat(r.message[0].csd_price)
+//                 $('#difference').html(parseFloat(difference).toFixed(2));
+//                 $("#market_price").html(parseFloat(r.message[0].market_price).toFixed(2))
+//                 $("#csd_price").html(parseFloat(r.message[0].csd_price).toFixed(2))
+//             } else {
+//                 $('#difference').html("Na");
+//                 $("#market_price").html("Na")
+//                 $("#csd_price").html("Na")
+//             }
+//         }
+//     });
     
-}
+// }
 
 function changeCity() {
     frappe.call({
