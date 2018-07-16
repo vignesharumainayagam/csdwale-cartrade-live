@@ -14,7 +14,8 @@ from frappe import _
 def get_context(context):
 	location = frappe.request.cookies.get('city_location')
 
-	LatestNews=frappe.db.get_all('News', fields=['title','description','image','category', 'route'],limit_page_length=6)
+	LatestNews=frappe.db.get_all('News', fields=['title','description','image','category', 'route'],
+			filters={'is_published':1},limit_page_length=6)
 
 
 	recent_products = frappe.db.get_list('Item', 
@@ -75,3 +76,30 @@ def get_context(context):
 	context.category = Categories		
 	context.RecentProducts = recent_products
 	context.LatestNews = LatestNews
+
+
+	
+	ads_right = frappe.db.get_value('Widget Placeholder',
+				filters={"view": 'Homepage', 'position': 'Right Panel'},
+				fieldname=['google_ad_script'])
+
+	context.ads_right = ads_right
+
+	
+	ads_top = frappe.db.get_value('Widget Placeholder',
+				filters={"view": 'Homepage', 'position': 'Top Panel'},
+				fieldname=['google_ad_script'])
+
+	context.ads_top = ads_top
+
+	ads_middle = frappe.db.get_value('Widget Placeholder',
+				filters={"view": 'Homepage', 'position': 'Middle Panel'},
+				fieldname=['google_ad_script'])
+
+	context.ads_middle = ads_middle
+	
+	ads_bottom = frappe.db.get_value('Widget Placeholder',
+				filters={"view": 'Homepage', 'position': 'Bottom Panel'},
+				fieldname=['google_ad_script'])
+
+	context.ads_bottom = ads_bottom

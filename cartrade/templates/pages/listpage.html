@@ -35,10 +35,18 @@
     </div>
 </div>
 
+<div class="top-add">
+    {% if toptads %}
+    {{toptads}}    
+    {% endif %}
+</div>
+
+
+
 <div class="container">
     <div class="row">
         <div class="col-md-9">
-            <main class="l-main-content">
+            <main class="l-main-content" style="border-right: 1px solid #f4f4f4;">
                <div class="b-car-details__header" style="padding-bottom: 10px; text-transform: uppercase;">
                     <h2 class="b-car-details__title">{{Brand[0].brand_name}} {{Category[0].category_name}}</h2>
                 </div>
@@ -78,16 +86,101 @@
                 </div>
             </main>
         </div>
-        <div class="col-md-3">
-            </aside>
+        <div class="col-md-3" style="padding-left: 0px; padding-right: 0px;">
+                        
+            <div class="rig-add">
+                {% if adsright %}
+                    {{adsright}}
+                {% endif %}
+            </div>
+            <div class="fix"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                        <h4 class="modal-title">Find Dealers</h4>   
+                        </div>
+                        <hr>
+                        <div class="col-md-12">
+                            <div class="btn-group bootstrap-select open" style="width: 100%;">
+                                <select class="selectpicker" id="modalbrand" data-width="100%" tabindex="-98">
+                                    <option disabled selected value>Select Brand</option>
+                                    {% for brand in rowe %}
+                                    <option value="{{brand.route}}">{{brand.brand_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="col-md-12">
+                            <div class="btn-group bootstrap-select open" style="width: 100%;">
+                                <select class="selectpicker" id="modalitem" data-width="100%" tabindex="-98">
+                                    <option disabled selected value>Select Model</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="btn-group bootstrap-select open" style="width: 100%;">
+                                <select class="selectpicker" id="modalcity" data-width="100%" tabindex="-98">
+                                    <option disabled selected value>Select City</option>
+                                    {% for i in city%}
+                                    <option value="{{i.route}}">{{i.city_name}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: center;">
+                            <button class="btn btn-lg btn-primary" id="get_dealers">Get Dealers</button>
+                        </div>
+                    </div>
+            </div>
+            <div class="fix">
+                <h4 class="modal-title">Brands</h4>     
+                <hr>      
+                <ul class="b-list-brands list-unstyled">
+                    {% for b in rowe %}
+
+                    <li class="b-list-brands__item"><a class="b-list-brands__link" href="/csd-{{category_route}}/{{b.route}}">{{b.brand_name}}<span class="badge">({{b.count}})</span></a>
+                    </li>
+                    <hr>
+
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
 </div>
 
+<div class="bot-add">
+    {% if bottomads %}
+        {{bottomads}}
+    {% endif %}
+</div>
 <style>
-    .b-goods-1__csdprice{
-        margin-top: 22% !important;
-    }
+
+.b-list-brands{
+    columns: 1;
+}
+.btn-group{
+    margin-bottom: 8px; 
+}
+.fix{
+    margin-top: 35px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f4f4f4;
+    /*background-color: #f4f4f4;*/
+    border: 1px solid #f4f4f4;
+    padding: 8px 8px 8px 8px;
+
+}
+
+hr.vl{ 
+  
+    border:         none;
+    border-left:    1px solid hsla(200, 10%, 50%,100);
+    height:         50in;
+}
+.b-goods-1__csdprice{
+    margin-top: 22% !important;
+}
 @media screen and (max-width: 767px) /* Mobile */ {
 .b-goods-1__inner {
     float: none;
@@ -109,9 +202,13 @@
 .l-main-content {
     padding-top: 40px;
 }
+.vl {
+    border-left: 6px solid green;
+    height: 500px;
+}   
+
 .b-goods-1__csdprice
 {
-
 float: right;
     width: 48%;
     padding: 4px;
@@ -125,6 +222,9 @@ float: right;
     color: #fff;
 }
 
+.dropdown-toggle{
+    box-shadow: none;
+}
 .navbar .container {
     background-color: rgb(199, 22, 34);
 }
@@ -133,6 +233,16 @@ body {
     margin-top: 60px;
 }
 
+.modal-title {
+    text-align: left;
+    margin: 0;
+    margin-bottom: 8px;
+    background-color: #f4f4f4;
+    margin-top: -8px;
+    width: calc(100% + 16px);
+    margin-left: -8px;
+    padding: 10px;
+}
 span.norecords {
     float: left;
     width: 100%;

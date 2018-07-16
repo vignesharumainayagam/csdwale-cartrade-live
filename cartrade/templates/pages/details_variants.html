@@ -24,7 +24,20 @@
         </div>
     </div>
 </div>
-<!-- end breadcrumb-->
+<div class="top-add">
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-410368<wbr></wbr>8394432936"
+     data-ad-slot="1028484793"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+    {% if addtopadd %}
+    {{addtopadd}}    
+    {% endif %}
+</div>
+
 <main class="l-main-content">
     <div class="container">
         <div class="row">
@@ -60,6 +73,7 @@
                                 <span>Difference    </span>
                                 <span style="font-family: 'Hind'; padding-left: 71px;"> ₹ 
                                                     <span id="difference">
+                                                        
                                                     </span>
                                 </span>
                             </div>
@@ -70,6 +84,13 @@
                             </div>
                         </a>
                     </div>
+                    <div class="mid-add">
+                        {% if addmidads %}
+                            {{addmidads}}
+                        {% endif %}    
+
+                    </div>
+
                     <div class="col-md-12">
                         <ul class="b-car-details__nav nav nav-tabs bg-primary">
                             <li class="active"><a href="#specifications" data-toggle="tab">Specifications</a>
@@ -93,15 +114,33 @@
                 </section>
             </div>
             <div class="col-md-3">
+                <div class="rig-add">
+
+                    {% if addrightadd %}
+
+                        {{addrightadd}}
+                        
+                    {% endif %}
+                </div>  
             </div>
         </div>
     </div>
-    <!-- end .b-car-details-->
-    <!-- end .section-default_top-->
 </main>
+
+<div class="bot-add">
+    {% if addbottomadd %}
+        {{addbottomadd}}
+    {% endif %}
+</div>
+
 <script type="text/javascript">
 $(document).ready(function() {
 
+
+    var data=$(".top-add").text();
+    var content=$(data)
+    console.log(content[0])
+    $(".top-add").html(content)
 
     var market_price = $('#market_price').html();
     var csd_price = $('#csd_price').html();

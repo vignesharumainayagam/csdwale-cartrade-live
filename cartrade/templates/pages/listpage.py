@@ -24,6 +24,12 @@ def get_context(context):
 
 	brand_route = path[1]
 
+	context.category_route = category_route
+
+	context.adsright = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={"view": 'Detail View', 'position': 'Right Panel'})
+	context.toptads = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Detail View', 'position': 'Top Panel'})
+	context.bottomads = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Detail View', 'position': 'Bottom Panel'})
+	context.midads = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Detail View', 'position': 'Middle Panel'})
 
 	Category=frappe.db.get_all('Category', 
 								fields=['category_name','route','name'],
@@ -33,6 +39,13 @@ def get_context(context):
 							 fields=['route','name','brand_name','meta_title','meta_description','meta_keywords'],
 							 filters={'route':brand_route})
 
+	rowe=frappe.db.get_list('Item Brand Category', filters = {'category': Category[0].name}, fields=['parent'])	
+	for x in rowe:
+		x.route = frappe.db.get_value('ItemBrand',fieldname=['route'], filters={'name':x.parent})
+		x.brand_name = frappe.db.get_value('ItemBrand',fieldname=['brand_name'], filters={'name':x.parent})
+		item_count = frappe.db.get_all("Item", fields=['name'], filters={'brand': x.parent, 'category': Category[0].name, 'is_published': 1})
+		x.count = len(item_count)	
+	context.rowe=rowe
 
 	context.meta_keywords = frappe.db.get_value("ItemBrand", 
 						 filters={'route': brand_route}, fieldname=['meta_keywords'])
@@ -100,6 +113,7 @@ def get_context(context):
 
 @frappe.whitelist(allow_guest=True)
 def get_more_items(category_route, brand_route,num):
+
 	Category=frappe.db.get_all('Category', 
 							  fields=['category_name','route','name'],
 							  filters={'route': category_route})
@@ -146,3 +160,5 @@ def get_more_items(category_route, brand_route,num):
 				x.base_market_price = {'market_price': 'Na'}
 
 	return data		
+
+

@@ -70,6 +70,12 @@
         </div>
     </div>
 </div>
+<div class="top-add">
+    {% if ads_top %}
+    {{ads_top}}    
+    {% endif %}
+</div>
+
 <section class="section-default" style="padding-top: 0px">
     <div class="container">
         <div class="row">
@@ -142,11 +148,13 @@
                     </ul>
                 </section>
             </div>
-            <div class="col-md-4 col-md-offset-1">
-                <div class="b-bnr" style="display: none;">
+            <div class="col-md-5">
+                <div class="rig-add">
+                    {% if adsright %}
+                        {{adsright}}
+                    {% endif %}
                 </div>
-                <div class="b-bnr1" style="display: none;">
-                </div>
+                
             </div>
         </div>
     </div>
@@ -185,6 +193,15 @@
         </div>
     </div>
 </section>
+<div class="bot-add">
+
+    {% if ads_bottom %}
+        {{ads_bottom}}
+
+    {% endif %}
+</div>
+
+
 <!-- Modal -->
 <div id="myModal123" class="modal fade" role="dialog">
     <div class="modal-dialog">

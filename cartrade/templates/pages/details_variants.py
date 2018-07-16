@@ -34,6 +34,13 @@ def get_context(context):
 
 	variant_route = word[3]
 
+	
+	addrightadd = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={"view": 'Variant Detail Page', 'position': 'Right Panel'})
+	context.addrightadd = addrightadd
+	context.addtopadd = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Variant Detail Page', 'position': 'Top Panel'})
+	context.addbottomadd = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Variant Detail Page', 'position': 'Bottom Panel'})
+	context.addmidads = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Variant Detail Page', 'position': 'Middle Panel'})
+
 	item_name = frappe.db.get_value("Item", 
 				filters={'route': item_route}, fieldname=['name'])
 

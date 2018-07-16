@@ -34,6 +34,13 @@ def get_context(context):
 
 	LatestNews=frappe.db.get_all('News', fields=['title','description','image','category','route'],limit_page_length=6)
 	pathcategory = frappe.db.get_list('Category', fields=['name','route'], filters={'route':path.lower()})	
+	adsonright = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={"view": 'Category Homepage', 'position': 'Right Panel'})
+
+	context.adsonright = adsonright
+	context.addonrop = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Variant Detail Page', 'position': 'Top Panel'})
+	context.addonbottom = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Variant Detail Page', 'position': 'Bottom Panel'})
+	context.addonmide = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Variant Detail Page', 'position': 'Middle Panel'})
+
 	pathcategoryname = pathcategory[0].name
 	context.pathcategoryroute = pathcategory[0].route
 	if pathcategoryname.endswith('s'):
@@ -53,11 +60,11 @@ def get_context(context):
 	for x in Brands:
 		x.route = frappe.db.get_value('ItemBrand',fieldname=['route'], filters={'name':x.parent})
 		x.brand_name = frappe.db.get_value('ItemBrand',fieldname=['brand_name'], filters={'name':x.parent})
-		item_count = frappe.db.get_all("Item", fields=['name'], filters={'brand': x.parent, 'category': pathcategory[0].name})
+		item_count = frappe.db.get_all("Item", fields=['name'], filters={'brand': x.parent, 'category': pathcategory[0].name, 'is_published': 1})
 		x.count = len(item_count)	
 	featured_products=frappe.db.get_all('Item', 
 						fields=['item_name','brand','csd_rate','short_description', 'featured_image','route', 'category', 'name'], 
-						filters={'is_featured': "yes", 'category': path},limit_page_length=6)
+						filters={'is_featured': "yes", 'category': path, 'is_published': 1},limit_page_length=6)
 	for Recentitem in featured_products:
 		ItemBrand=frappe.db.get_all('ItemBrand', fields=['route','name','brand_name'],filters={'name':Recentitem.brand})
 		ItemCategory=frappe.db.get_all('Category', fields=['route','name','category_name'],filters={'name':Recentitem.category})
@@ -83,8 +90,6 @@ def get_context(context):
 	context.LatestNews = LatestNews
 	context.Brands = Brands
 
-
-	
 
 @frappe.whitelist(allow_guest=True)
 def get_items(brand_route, category_route):

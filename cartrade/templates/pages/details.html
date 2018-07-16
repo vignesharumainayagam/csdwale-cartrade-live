@@ -29,10 +29,17 @@
     </div>
 </div>
 <!-- end breadcrumb-->
+<div class="top-add">
+
+    {% if topadd %}
+    {{topadd}}    
+    {% endif %}
+</div>
+
 <main class="l-main-content">
     <div class="container">
         <div class="row">
-            <div class="col-md-9">
+            <div class="col-md-9" style="border-right: 1px solid #f4f4f4">
                 <style type="text/css">
                 .csd-goods-1__img {
                     text-align: center;
@@ -149,15 +156,16 @@
                             </table>{% else %} No Variants found.{% endif %}
                         </div>
                     </div>
+
+<div class="mid-add">
+    {% if midads %}
+        {{midads}}
+    {% endif %}    
+
+</div>
                     <div class="col-md-12" style="margin-top:20px;">
-                        <!-- <ul class="b-car-details__nav nav nav-tabs bg-primary">
-                            <li class="active">
-                                <a href="#dealers" data-toggle="tab">Dealers</a>
-                            </li>
-                        </ul> -->
+     
                         <h3 class="b-car-details__section-title details_section">Dealers</h3>
-                        <!-- <div class="b-car-details__tabs tab-content">
-                            <div class="tab-pane active fade in" id="dealers" style="    padding: 20px 20px 20px;"> -->
                         <div class="b-car-details__tabs">
                             <div id="dealers">
                                 {% if dealers %}{% for y in dealers %}
@@ -184,13 +192,37 @@
                     </div>
                 </section>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" style="padding-right: 10px; padding-left: 10px;">
+                <div class="rig-add">
+
+                    {% if rightadd %}
+                        {{rightadd}}
+                    {% endif %}
+                </div>
+
+                <div class="fix">
+                    <h4 class="modal-title">Related Products</h4>     
+                    <ul class="b-list-brands list-unstyled">
+                        {% for i in related_bikes %}
+
+                        <li class="b-list-brands__item"><a class="b-list-brands__link" href="/csd-{{category_route}}/{{brand_route}}/{{i.route}}">{{i.item_name}}</a>
+                        </li>
+                        <hr>
+
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
+    <div class="bot-add">
+
+    {% if bottomadd %}
+        {{bottomadd}}
+    {% endif %}
+    </div>
     <div class="modal fade" id="contactdealer" role="dialog">
         <div class="modal-dialog">
-            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="dealersName"></h5>
@@ -229,6 +261,28 @@
 .header-color-black *,
 .header.header-color-black .navbar .navbar-nav>li>a {
     color: #fff;
+}
+.modal-title {
+    text-align: left;
+    margin: 0;
+    margin-bottom: 8px;
+    background-color: #f4f4f4;
+    margin-top: -8px;
+    width: calc(100% + 16px);
+    margin-left: -8px;
+    padding: 10px;
+}
+.b-list-brands{
+    columns: 1;
+}
+.fix{
+    margin-top: 35px;
+    padding-bottom: 20px;
+    /*border-bottom: 1px solid #f4f4f4;*/
+    /*background-color: #f4f4f4;*/
+    border: 1px solid #f4f4f4;
+    padding: 8px 8px 8px 8px;
+
 }
 .navbar .container {
     background-color: rgb(199, 22, 34);
@@ -303,11 +357,16 @@ p.shortInfo {
 }
 .details_section {
     margin-bottom: 22px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 700;
     letter-spacing: .02em;
     text-transform: uppercase;
     color: #222;
+    height: 60px;
+    background-color: #f4f4f4;
+    padding-top: 20px;
+    /*text-align: center;*/
+    padding-left: 20px;
 }
 .errMsg {
     display: none;
@@ -416,29 +475,6 @@ function KeyDown(e) {
     }
 }
 
-/{
-//     frappe.call({
-//         method: "cartrade.templates.pages.details.getPriceBasedOnCity",
-//         args: {
-//             city_name: $("#select_location option:selected").val(),
-//             variant_name: $("#select_variant option:selected").attr('id'),
-//             item: $("#item").val()
-//         },
-//         callback: function(r) {
-//             if (r.message != undefined) {
-//                 var difference = parseFloat(r.message[0].market_price) - parseFloat(r.message[0].csd_price)
-//                 $('#difference').html(parseFloat(difference).toFixed(2));
-//                 $("#market_price").html(parseFloat(r.message[0].market_price).toFixed(2))
-//                 $("#csd_price").html(parseFloat(r.message[0].csd_price).toFixed(2))
-//             } else {
-//                 $('#difference').html("Na");
-//                 $("#market_price").html("Na")
-//                 $("#csd_price").html("Na")
-//             }
-//         }
-//     });
-    
-// }
 
 function changeCity() {
     frappe.call({

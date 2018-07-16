@@ -1,14 +1,51 @@
 var itemssss = true;
 var num = 0;
 $(document).ready(function() {
+    $('#get_dealers').click(function() {
+        var category_route = window.location.pathname.replace('/', '').replace('csd-','').split('/')[0]
+        var brand_route = $('#modalbrand option:selected').val();
+        var city_route = $('#modalcity option:selected').val();
+        $("#errMsg").hide();
+        if(brand_route!=""&&city_route!="")        
+            window.location.replace('/csd-dealers/' + city_route + '/' + category_route + '/' + brand_route)
+        else{
+            if(city_route!=""&&brand_route==""){
+                window.location.replace('/csd-dealers/' + city_route + '/' + category_route)
+            }else{
+               $("#errMsg").show();
+            }
+        }
+    })
+
+    $('#modalbrand').change(function() {
+        var selected_brand = $('#modalbrand option:selected').val();
+
+        frappe.call({
+            method: "cartrade.templates.pages.categoryhome.get_items",
+            args: {
+                brand_route: selected_brand,
+                category_route: window.location.pathname.replace('/', '').split('-')[1]
+            },
+            callback: function(r) {
+                $('#modalitem').html('');
+                for (var i = 0; i < r.message.length; i++) {
+                    $('#modalitem').append('<option value=' + r.message[i].route + '>' + r.message[i].item_name + '</option>');
+                }
+                $('.selectpicker').selectpicker('refresh');
+
+                console.log(r.message)
+            }
+        });
+    })
 
     $(window).scroll(function() {
         if(itemssss){
         if ($(window).scrollTop()>= 700) {
             var path = window.location.pathname.replace("/", "");
+            var path = path.replace('csd-','');
             var path = path.split("/");
             var brand = path[1].toLocaleLowerCase();
-            var category = path[0].split('-')[1].toLocaleLowerCase();
+            var category = path[0].toLocaleLowerCase();
                     num = num + 20;                
             frappe.call({
                 method: "cartrade.templates.pages.listpage.get_more_items",

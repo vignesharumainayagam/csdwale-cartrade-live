@@ -28,6 +28,10 @@ def get_data():
 					"type": "doctype",
 					"name": "Update Item Price"
 				},
+				{
+					"type": "doctype",
+					"name": "Item Variant Price"
+				},
 				
 			]
 		},

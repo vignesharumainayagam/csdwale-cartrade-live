@@ -1,13 +1,19 @@
-{% extends web_base_template_path %} {% block head %} {% block meta_block %}
+{% extends web_base_template_path %} {% block head %} 
+
+{% block meta_block %}
 <meta itemprop="description" name="description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" />
 <meta itemprop="keywords" name="keywords" content="{% if MetaKeywords %}{{MetaKeywords}}{% endif %}" />
 <meta property="og:url" content="{{CurrentUrl}}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{% if title %}{{title}}{% endif %}">
 <meta property="og:description" content="{% if MetaDescription %}{{MetaDescription}}{% endif %}" /> {% endblock %} {% endblock %} {% block content %} {% block script %}
+
 <script>
+    
 {% include "templates/includes/dcsd/homepage.js" %}
 </script>
+
+
 {% endblock %}
 
 <div class="l-theme animated-css" data-header="sticky" data-header-top="200" data-canvas="container">
@@ -70,6 +76,25 @@
             </div>
         </div>
     </div>
+
+    <div class="top-add">
+
+<!-- csdwale -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4103688394432936"
+     data-ad-slot="1028484793"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+<!--    {% if ads_top %}
+        {{ads_top|safe}}    
+        {% endif %}
+ -->
+
+    </div>
+
     <section class="section-advantages-2 section-dark area-bg area-bg_dark parallax">
         
         <div class="area-bg__inner">
@@ -157,6 +182,12 @@
             </div>
         </div>
     </section>
+    <div class="mid-add">
+        {% if ads_middle %}
+            {{ads_middle}}
+        {% endif %}    
+
+    </div>
     <section class="" style="padding-bottom: 90px">
         <div class="container">
             <div class="row">
@@ -229,6 +260,11 @@
             </div>
         </div>
     </section>
+</div>
+<div class="bot-add">
+    {% if ads_bottom %}
+        {{ads_bottom}}
+    {% endif %}
 </div>
 {% block style %}
 <style type="text/css">

@@ -39,6 +39,11 @@ def get_context(context):
 
 	context.category_route = category_route
 
+	context.rightadd = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={"view": 'Detail View', 'position': 'Right Panel'})
+	context.topadd = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Detail View', 'position': 'Top Panel'})
+	context.bottomadd = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Detail View', 'position': 'Bottom Panel'})
+	context.midads = frappe.db.get_value('Widget Placeholder', fieldname=['google_ad_script'], filters={'view': 'Detail View', 'position': 'Middle Panel'})
+
 	category_name = frappe.db.get_value("Category", 
 				  	filters={'route': category_route}, fieldname=['category_name'])
 
@@ -55,6 +60,10 @@ def get_context(context):
 	context.brand_name = brand_name
 
 	context.item_route = item_route
+
+	context.related_bikes = frappe.db.get_list('Item',
+							filters={'brand':brand_name, 'category':category,  "route": ["!=", item_route] }, 
+							fields=['item_name', 'featured_image', 'route'])
 
 	context.meta_title = frappe.db.get_value("Item", 
 						 filters={'route': item_route}, fieldname=['meta_title'])
